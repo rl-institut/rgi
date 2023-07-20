@@ -5,9 +5,44 @@ from dash import dcc, html
 
 import controls
 
+scenario_options = controls.get_scenarios()
 scenario = dbc.Tabs(
     id="scenarios",
-    children=[dbc.Tab(label="Single Scenario"), dbc.Tab(label="Scenario Comparison")],
+    children=[
+        dbc.Tab(
+            label="Single Scenario",
+            children=[
+                html.Label("Scenario:"),
+                dcc.Dropdown(
+                    id="scenario_1",
+                    options=scenario_options,
+                ),
+            ],
+        ),
+        dbc.Tab(
+            label="Scenario Comparison",
+            children=[
+                html.Div(
+                    [
+                        html.Label("Scenario 1:"),
+                        dcc.Dropdown(
+                            id="scenario_1",
+                            options=scenario_options,
+                        ),
+                    ],
+                ),
+                html.Div(
+                    [
+                        html.Label("Scenario 2:"),
+                        dcc.Dropdown(
+                            id="scenario_2",
+                            options=scenario_options,
+                        ),
+                    ],
+                ),
+            ],
+        ),
+    ],
 )
 year = html.Div(
     [
