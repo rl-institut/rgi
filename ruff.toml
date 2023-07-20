@@ -27,6 +27,7 @@ ignore = [
   "PD011",   # Use `.to_numpy()` instead of `.values`  (does not work out of the box)
   "RUF012",  # Mutable class attributes should be annotated with `typing.ClassVar`
   "UP038",   # (non-pep604-isinstance)
+  "PD901",    # `df` is a bad variable name. Be kinder to your future self.
 ]
 fix = true
 show-fixes = true

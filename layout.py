@@ -3,9 +3,9 @@
 import dash_bootstrap_components as dbc
 from dash import dcc, html
 
-import controls
+import data
 
-scenario_options = controls.get_scenarios()
+scenario_options = data.get_scenarios()
 scenario = dbc.Tabs(
     id="scenarios",
     children=[
@@ -44,13 +44,15 @@ scenario = dbc.Tabs(
         ),
     ],
 )
+year_options = data.get_years()
 year = html.Div(
     [
         html.Label("Target Year:"),
         dcc.Slider(
             id="year",
             step=None,
-            marks={year: str(year) for year in controls.get_years()},
+            marks={year: str(year) for year in year_options},
+            value=year_options[0],
         ),
     ],
 )
@@ -80,7 +82,7 @@ unit = html.Div(
         ),
     ],
 )
-criteria_options = controls.get_criteria()
+criteria_options = data.get_criteria()
 criteria = html.Div(
     [
         html.Label("Criteria for requirements:"),
@@ -93,7 +95,14 @@ criteria = html.Div(
 )
 
 region = html.Section(title="Region")
-atlas = html.Section(title="Choropleth")
+atlas = html.Section(
+    title="Choropleth",
+    children=[
+        dcc.Graph(
+            id="choropleth",
+        ),
+    ],
+)
 controls = html.Section(
     title="Settings",
     children=[scenario, year, requirements, unit, criteria],
