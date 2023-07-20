@@ -1,6 +1,7 @@
 .idea/*
-.env
+.envs/.local/.env
 /.ruff_cache/
 /venv/
 /data/
 /rgi_data_visu.ipynb
+/.envs/.production/

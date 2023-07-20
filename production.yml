@@ -1,8 +1,5 @@
 version: "3"
 
-volumes:
-  production_postgres_data: {}
-
 services:
   rgi:
     build:
@@ -11,14 +8,7 @@ services:
     image: rgi
     container_name: rgi
     env_file:
-      - .env
+      - .envs/.production/.env
     expose:
     - 80
     restart: always
-    networks:
-    - caddy_network
-
-networks:
-  caddy_network:
-    external:
-      name: docker_caddy_network
