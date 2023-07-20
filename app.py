@@ -33,6 +33,7 @@ server.secret_key = settings.SECRET_KEY
         Input(component_id="scenario_2", component_property="value"),
         Input(component_id="year", component_property="value"),
         Input(component_id="requirement", component_property="value"),
+        Input(component_id="criteria", component_property="value"),
     ],
 )
 def choropleth(  # noqa: PLR0913
@@ -42,6 +43,7 @@ def choropleth(  # noqa: PLR0913
     scenario_2: str,
     year: int,
     requirement: str,
+    criteria: list[str],
 ) -> tuple[go.Figure, go.Figure]:
     """Return choropleth for given user settings."""
     if scenarios == "scenario_single":
@@ -50,6 +52,7 @@ def choropleth(  # noqa: PLR0913
                 scenario=scenario,
                 requirement=requirement,
                 year=year,
+                criteria=criteria,
             ),
             graphs.blank_fig(),
         )
@@ -57,7 +60,13 @@ def choropleth(  # noqa: PLR0913
         scenario=scenario_1,
         requirement=requirement,
         year=year,
-    ), graphs.get_choropleth(scenario=scenario_2, requirement=requirement, year=year)
+        criteria=criteria,
+    ), graphs.get_choropleth(
+        scenario=scenario_2,
+        requirement=requirement,
+        year=year,
+        criteria=criteria,
+    )
 
 
 if __name__ == "__main__":

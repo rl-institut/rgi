@@ -95,6 +95,7 @@ criteria = html.Div(
     [
         html.Label("Criteria for requirements:"),
         dcc.Dropdown(
+            id="criteria",
             options=criteria_options,
             value=criteria_options,
             multi=True,

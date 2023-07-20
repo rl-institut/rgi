@@ -16,7 +16,12 @@ def blank_fig() -> go.Figure:
     return fig
 
 
-def get_choropleth(scenario: str, requirement: str, year: int) -> px.choropleth:
+def get_choropleth(
+    scenario: str,
+    requirement: str,
+    year: int,
+    criteria: list[str],
+) -> px.choropleth:
     """Return choropleth for given user settings."""
     title = f"choropleth_map_aggregated_{requirement}_requirements"
 
@@ -26,6 +31,9 @@ def get_choropleth(scenario: str, requirement: str, year: int) -> px.choropleth:
         else data.get_water_requirements(scenario)
     )
     requirement_key = "area_km2" if requirement == "area" else "water_miom3"
+
+    df = df[df.target_year == year]
+    df = df[df["type"].isin(criteria)]
 
     if requirement == "area":
         df = df.replace(
@@ -40,7 +48,6 @@ def get_choropleth(scenario: str, requirement: str, year: int) -> px.choropleth:
                 "ror": "hydro",
             },
         )
-        df = df.groupby(["sce_name", "target_year", "bus", "type"]).sum().reset_index()
 
     df = (
         df[["bus", "target_year", requirement_key]]
@@ -54,7 +61,7 @@ def get_choropleth(scenario: str, requirement: str, year: int) -> px.choropleth:
     df = df.rename(columns={"bus": "name"})
 
     fig = px.choropleth(
-        df[df.target_year == year],
+        df,
         geojson=geo_on,
         locations="name",
         color=requirement_key,
