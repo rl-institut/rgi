@@ -83,10 +83,10 @@ unit = html.Div(
         dbc.RadioItems(
             id="unit",
             options=[
-                {"label": "Percentage", "value": "percentage"},
-                {"label": "Soccer Fields", "value": "soccer"},
+                {"label": "Percentage", "value": "rel"},
+                {"label": "Olympic Soccer Fields", "value": "oly_field"},
             ],
-            value="percentage",
+            value="rel",
         ),
     ],
 )

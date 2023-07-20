@@ -23,6 +23,27 @@ server.secret_key = settings.SECRET_KEY
 
 @app.callback(
     [
+        Output(component_id="unit", component_property="options"),
+        Output(component_id="unit", component_property="value"),
+    ],
+    Input(component_id="requirement", component_property="value"),
+    prevent_initial_call=True,
+)
+def change_unit(requirement: str) -> tuple[list[dict[str, str]], str]:
+    """Change unit related to selected requirement."""
+    if requirement == "area":
+        return [
+            {"label": "Percentage", "value": "rel"},
+            {"label": "Olympic Soccer Fields", "value": "oly_field"},
+        ], "rel"
+    return [
+        {"label": "Mio. m³", "value": "water_miom3"},
+        {"label": "Olympic Swimming Pools", "value": "oly_pool"},
+    ], "water_miom3"
+
+
+@app.callback(
+    [
         Output(component_id="choropleth_1", component_property="figure"),
         Output(component_id="choropleth_2", component_property="figure"),
     ],
@@ -33,6 +54,7 @@ server.secret_key = settings.SECRET_KEY
         Input(component_id="scenario_2", component_property="value"),
         Input(component_id="year", component_property="value"),
         Input(component_id="requirement", component_property="value"),
+        Input(component_id="unit", component_property="value"),
         Input(component_id="criteria", component_property="value"),
     ],
 )
@@ -43,6 +65,7 @@ def choropleth(  # noqa: PLR0913
     scenario_2: str,
     year: int,
     requirement: str,
+    unit: str,
     criteria: list[str],
 ) -> tuple[go.Figure, go.Figure]:
     """Return choropleth for given user settings."""
@@ -52,6 +75,7 @@ def choropleth(  # noqa: PLR0913
                 scenario=scenario,
                 requirement=requirement,
                 year=year,
+                unit=unit,
                 criteria=criteria,
             ),
             graphs.blank_fig(),
@@ -60,11 +84,13 @@ def choropleth(  # noqa: PLR0913
         scenario=scenario_1,
         requirement=requirement,
         year=year,
+        unit=unit,
         criteria=criteria,
     ), graphs.get_choropleth(
         scenario=scenario_2,
         requirement=requirement,
         year=year,
+        unit=unit,
         criteria=criteria,
     )
 

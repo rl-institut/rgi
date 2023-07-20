@@ -20,6 +20,7 @@ def get_choropleth(
     scenario: str,
     requirement: str,
     year: int,
+    unit: str,
     criteria: list[str],
 ) -> px.choropleth:
     """Return choropleth for given user settings."""
@@ -30,7 +31,6 @@ def get_choropleth(
         if requirement == "area"
         else data.get_water_requirements(scenario)
     )
-    requirement_key = "area_km2" if requirement == "area" else "water_miom3"
 
     df = df[df.target_year == year]
     df = df[df["type"].isin(criteria)]
@@ -50,7 +50,7 @@ def get_choropleth(
         )
 
     df = (
-        df[["bus", "target_year", requirement_key]]
+        df[["bus", "target_year", unit]]
         .groupby(["bus", "target_year"])
         .sum()
         .reset_index()
@@ -64,7 +64,7 @@ def get_choropleth(
         df,
         geojson=geo_on,
         locations="name",
-        color=requirement_key,
+        color=unit,
         scope="europe",
         featureidkey="properties.name",
     )
