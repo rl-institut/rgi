@@ -3,11 +3,53 @@ import json
 
 import pandas as pd
 
+import data
 import settings
 
 ONSHORE_GEOJSON_FILENAME = "regions_onshore_elec_s_77.geojson"
 
 SCENARIOS = ["clever", "tyndp_de"]
+
+
+def prepare_data(
+    scenario: str,
+    requirement: str,
+    year: int,
+    unit: str,
+    criteria: list[str],
+) -> pd.Series:
+    """Filter and aggregate data by given user settings."""
+    df = (
+        data.get_area_requirements(scenario)
+        if requirement == "area"
+        else data.get_water_requirements(scenario)
+    )
+
+    df = df[df.target_year == year]
+    df = df[df["type"].isin(criteria)]
+
+    if requirement == "area":
+        df = df.replace(
+            {"H2 Electrolysis": "electrolyser", "H2 Store": "hydrogen storage"},
+        )
+    else:
+        df = df.replace(
+            {
+                "H2 Electrolysis": "electrolyser",
+                "CCGT": "gas",
+                "OCGT": "gas",
+                "ror": "hydro",
+            },
+        )
+
+    df = (
+        df[["bus", "target_year", unit]]
+        .groupby(["bus", "target_year"])
+        .sum()
+        .reset_index()
+    )
+    df = df.rename(columns={"bus": "name"})
+    return df
 
 
 def get_area_requirements(scenario: str) -> pd.DataFrame:
