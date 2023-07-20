@@ -9,7 +9,7 @@ import settings
 
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 
-# Initialize app
+
 app = dash.Dash(
     __name__,
     meta_tags=[
@@ -17,6 +17,14 @@ app = dash.Dash(
     ],
     external_stylesheets=[dbc.themes.BOOTSTRAP],
 )
-
 server = app.server
 server.secret_key = settings.SECRET_KEY
+
+
+if __name__ == "__main__":
+    app.run_server(
+        debug=settings.DEBUG,
+        use_debugger=False,
+        use_reloader=False,
+        passthrough_errors=True,
+    )
