@@ -103,7 +103,14 @@ criteria = html.Div(
     ],
 )
 
-region = html.Section(title="Region")
+region = html.Section(
+    title="Region",
+    children=[
+        dcc.Graph(
+            id="region",
+        ),
+    ],
+)
 atlas = html.Section(
     children=[
         dbc.Row(

@@ -15,7 +15,6 @@ def prepare_data(
     scenario: str,
     requirement: str,
     year: int,
-    unit: str,
     criteria: list[str],
 ) -> pd.Series:
     """Filter and aggregate data by given user settings."""
@@ -41,13 +40,6 @@ def prepare_data(
                 "ror": "hydro",
             },
         )
-
-    df = (
-        df[["bus", "target_year", unit]]
-        .groupby(["bus", "target_year"])
-        .sum()
-        .reset_index()
-    )
     df = df.rename(columns={"bus": "name"})
     return df
 
