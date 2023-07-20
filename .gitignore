@@ -1,2 +1,4 @@
 .idea/*
 .env
+/.ruff_cache/
+/venv/
