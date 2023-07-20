@@ -1,6 +1,7 @@
 """Holds settings for dash app."""
 
 import os
+import pathlib
 import warnings
 
 VERSION = "0.16.0"
@@ -12,3 +13,6 @@ if not SECRET_KEY:
         stacklevel=2,
     )
 DEBUG = os.environ.get("DEBUG", "False") == "True"
+
+ROOT_DIR = pathlib.Path(__file__).parent
+DATA_DIR = ROOT_DIR / "data"
