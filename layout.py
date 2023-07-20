@@ -14,7 +14,7 @@ scenario = dbc.Tabs(
             children=[
                 html.Label("Scenario:"),
                 dcc.Dropdown(
-                    id="scenario_1",
+                    id="scenario",
                     options=scenario_options,
                 ),
             ],
@@ -60,7 +60,7 @@ requirements = html.Div(
     [
         html.Label("Requirements:"),
         dbc.RadioItems(
-            id="requirements",
+            id="requirement",
             options=[
                 {"label": "Area", "value": "area"},
                 {"label": "Water", "value": "water"},

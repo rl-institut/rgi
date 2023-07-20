@@ -27,11 +27,12 @@ server.secret_key = settings.SECRET_KEY
     ],
     [
         Input(component_id="year", component_property="value"),
+        Input(component_id="requirement", component_property="value"),
     ],
 )
-def choropleth(year: int) -> tuple[px.choropleth]:
+def choropleth(year: int, requirement: str) -> tuple[px.choropleth]:
     """Return choropleth for given user settings."""
-    return (graphs.get_choropleth(requirement="area", year=year),)
+    return (graphs.get_choropleth(requirement=requirement, year=year),)
 
 
 if __name__ == "__main__":
