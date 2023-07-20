@@ -11,7 +11,7 @@ services:
     image: rgi
     container_name: rgi
     env_file:
-      - ./.envs/.production/.dash
+      - ./.env
     expose:
     - 80
     restart: always
