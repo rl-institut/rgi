@@ -1,12 +1,7 @@
 line-length = 120
 select = ["ALL"]
 exclude = [
-  "manage.py",
-  "digiplan/utils/ogr_layer_mapping.py",
-  "config/wsgi.py",
-  "digiplan/contrib/*",
-  "merge_local_dotenvs_in_dotenv.py",
-  "digiplan/utils/context_processors.py"
+  "run_local.py"
 ]
 ignore = [
   "I001",    # Import block is un-sorted or un-formatted (done by isort)
