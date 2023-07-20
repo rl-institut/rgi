@@ -1,19 +1,29 @@
 """Holds functionality for plotly graphs."""
 
 from plotly import express as px
+from plotly import graph_objects as go
 
 import data
 from data import get_regions
 
 
-def get_choropleth(requirement: str, year: int) -> px.choropleth:
+def blank_fig() -> go.Figure:
+    """Return empty figure."""
+    fig = go.Figure(go.Scatter(x=[], y=[]))
+    fig.update_layout(template=None)
+    fig.update_xaxes(showgrid=False, showticklabels=False, zeroline=False)
+    fig.update_yaxes(showgrid=False, showticklabels=False, zeroline=False)
+    return fig
+
+
+def get_choropleth(scenario: str, requirement: str, year: int) -> px.choropleth:
     """Return choropleth for given user settings."""
     title = f"choropleth_map_aggregated_{requirement}_requirements"
 
     df = (
-        data.get_area_requirements()
+        data.get_area_requirements(scenario)
         if requirement == "area"
-        else data.get_water_requirements()
+        else data.get_water_requirements(scenario)
     )
     requirement_key = "area_km2" if requirement == "area" else "water_miom3"
 

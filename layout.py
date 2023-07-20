@@ -10,16 +10,20 @@ scenario = dbc.Tabs(
     id="scenarios",
     children=[
         dbc.Tab(
+            tab_id="scenario_single",
             label="Single Scenario",
             children=[
                 html.Label("Scenario:"),
                 dcc.Dropdown(
                     id="scenario",
                     options=scenario_options,
+                    value=scenario_options[0],
+                    clearable=False,
                 ),
             ],
         ),
         dbc.Tab(
+            tab_id="scenario_comparison",
             label="Scenario Comparison",
             children=[
                 html.Div(
@@ -28,6 +32,8 @@ scenario = dbc.Tabs(
                         dcc.Dropdown(
                             id="scenario_1",
                             options=scenario_options,
+                            value=scenario_options[0],
+                            clearable=False,
                         ),
                     ],
                 ),
@@ -37,6 +43,8 @@ scenario = dbc.Tabs(
                         dcc.Dropdown(
                             id="scenario_2",
                             options=scenario_options,
+                            value=scenario_options[0],
+                            clearable=False,
                         ),
                     ],
                 ),
@@ -96,10 +104,20 @@ criteria = html.Div(
 
 region = html.Section(title="Region")
 atlas = html.Section(
-    title="Choropleth",
     children=[
-        dcc.Graph(
-            id="choropleth",
+        dbc.Row(
+            [
+                dbc.Col(
+                    dcc.Graph(
+                        id="choropleth_1",
+                    ),
+                ),
+                dbc.Col(
+                    dcc.Graph(
+                        id="choropleth_2",
+                    ),
+                ),
+            ],
         ),
     ],
 )

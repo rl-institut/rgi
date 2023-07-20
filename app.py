@@ -3,7 +3,7 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
-from plotly import express as px
+from plotly import graph_objects as go
 
 import graphs
 import layout
@@ -23,16 +23,41 @@ server.secret_key = settings.SECRET_KEY
 
 @app.callback(
     [
-        Output(component_id="choropleth", component_property="figure"),
+        Output(component_id="choropleth_1", component_property="figure"),
+        Output(component_id="choropleth_2", component_property="figure"),
     ],
     [
+        Input(component_id="scenarios", component_property="active_tab"),
+        Input(component_id="scenario", component_property="value"),
+        Input(component_id="scenario_1", component_property="value"),
+        Input(component_id="scenario_2", component_property="value"),
         Input(component_id="year", component_property="value"),
         Input(component_id="requirement", component_property="value"),
     ],
 )
-def choropleth(year: int, requirement: str) -> tuple[px.choropleth]:
+def choropleth(  # noqa: PLR0913
+    scenarios: str,
+    scenario: str,
+    scenario_1: str,
+    scenario_2: str,
+    year: int,
+    requirement: str,
+) -> tuple[go.Figure, go.Figure]:
     """Return choropleth for given user settings."""
-    return (graphs.get_choropleth(requirement=requirement, year=year),)
+    if scenarios == "scenario_single":
+        return (
+            graphs.get_choropleth(
+                scenario=scenario,
+                requirement=requirement,
+                year=year,
+            ),
+            graphs.blank_fig(),
+        )
+    return graphs.get_choropleth(
+        scenario=scenario_1,
+        requirement=requirement,
+        year=year,
+    ), graphs.get_choropleth(scenario=scenario_2, requirement=requirement, year=year)
 
 
 if __name__ == "__main__":

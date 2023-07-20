@@ -5,36 +5,37 @@ import pandas as pd
 
 import settings
 
-AREA_FILENAME = "area_joined.csv"
-WATER_FILENAME = "water_joined.csv"
 ONSHORE_GEOJSON_FILENAME = "regions_onshore_elec_s_77.geojson"
 
+SCENARIOS = ["clever", "tyndp_de"]
 
-def get_area_requirements() -> pd.DataFrame:
+
+def get_area_requirements(scenario: str) -> pd.DataFrame:
     """Return area requirement data."""
-    return pd.read_csv(settings.DATA_DIR / AREA_FILENAME)
+    filename = f"{scenario}_area_joined.csv"
+    return pd.read_csv(settings.DATA_DIR / filename)
 
 
-def get_water_requirements() -> pd.DataFrame:
+def get_water_requirements(scenario: str) -> pd.DataFrame:
     """Return water requirement data."""
-    return pd.read_csv(settings.DATA_DIR / WATER_FILENAME)
+    filename = f"{scenario}_water_joined.csv"
+    return pd.read_csv(settings.DATA_DIR / filename)
 
 
 def get_scenarios() -> list[str]:
     """Return scenarios from dataset."""
-    areas = get_area_requirements()
-    return areas["sce_name"].unique().tolist()
+    return SCENARIOS
 
 
 def get_years() -> list[int]:
     """Return years from dataset."""
-    areas = get_area_requirements()
+    areas = get_area_requirements(SCENARIOS[0])
     return areas["target_year"].unique().tolist()
 
 
 def get_criteria() -> list[str]:
     """Return criteria from dataset."""
-    areas = get_area_requirements()
+    areas = get_area_requirements(SCENARIOS[0])
     return areas["type"].unique().tolist()
 
 
