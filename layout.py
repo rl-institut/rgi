@@ -111,19 +111,21 @@ region = html.Section(
         ),
     ],
 )
-atlas = html.Section(
-    children=[
-        dbc.Row(
-            [
-                dbc.Col(
-                    dcc.Graph(
-                        id="choropleth_1",
-                    ),
+atlas = dbc.Row(
+    [
+        dbc.Col(
+            id="col_choropleth_1",
+            children=[
+                dcc.Graph(
+                    id="choropleth_1",
                 ),
-                dbc.Col(
-                    dcc.Graph(
-                        id="choropleth_2",
-                    ),
+            ],
+        ),
+        dbc.Col(
+            id="col_choropleth_2",
+            children=[
+                dcc.Graph(
+                    id="choropleth_2",
                 ),
             ],
         ),
@@ -135,5 +137,10 @@ controls = html.Section(
 )
 
 DEFAULT_LAYOUT = dbc.Container(
-    [dbc.Row([dbc.Col(region), dbc.Col(atlas), dbc.Col(controls)])],
+    [
+        dbc.Row(
+            [dbc.Col(atlas, className="col-9"), dbc.Col(controls, className="col-3")],
+        ),
+        dbc.Row(dbc.Col(region, className="col-9")),
+    ],
 )

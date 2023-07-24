@@ -1,5 +1,6 @@
 """Holds functionality for plotly graphs."""
 
+import pandas as pd
 from plotly import express as px
 from plotly import graph_objects as go
 
@@ -49,14 +50,14 @@ def get_choropleth(
         featureidkey="properties.name",
     )
 
-    fig.update_layout(margin={"l": 0, "r": 0, "b": 0, "t": 0}, width=800, height=700)
+    fig.update_layout(margin={"l": 0, "r": 0, "b": 0, "t": 0})
     fig.update_geos(fitbounds="locations", visible=False)
     fig.update_layout(title={"text": title, "automargin": True})
     return fig
 
 
 def get_bar_chart(  # noqa: PLR0913
-    scenario: str,
+    scenarios: list[str],
     requirement: str,
     year: int,
     unit: str,
@@ -66,11 +67,14 @@ def get_bar_chart(  # noqa: PLR0913
     """Return bar chart for selected region."""
     title = f"bar_chart_{requirement}_requirement_per_year"
 
-    df = data.prepare_data(
-        scenario=scenario,
-        requirement=requirement,
-        year=year,
-        criteria=criteria,
+    df = pd.concat(
+        data.prepare_data(
+            scenario=scenario,
+            requirement=requirement,
+            year=year,
+            criteria=criteria,
+        )
+        for scenario in scenarios
     )
     df = df[df["name"] == region]
 
@@ -78,6 +82,7 @@ def get_bar_chart(  # noqa: PLR0913
         df,
         x="target_year",
         y=unit,
+        facet_col="sce_name",
         barmode="group",
         color="type",
     )

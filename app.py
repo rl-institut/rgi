@@ -2,7 +2,7 @@
 
 import dash
 import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output, State
+from dash import Input, Output, ctx
 from plotly import graph_objects as go
 
 import graphs
@@ -46,6 +46,8 @@ def change_unit(requirement: str) -> tuple[list[dict[str, str]], str]:
     [
         Output(component_id="choropleth_1", component_property="figure"),
         Output(component_id="choropleth_2", component_property="figure"),
+        Output(component_id="col_choropleth_1", component_property="className"),
+        Output(component_id="col_choropleth_2", component_property="className"),
     ],
     [
         Input(component_id="scenarios", component_property="active_tab"),
@@ -67,7 +69,7 @@ def choropleth(  # noqa: PLR0913
     requirement: str,
     unit: str,
     criteria: list[str],
-) -> tuple[go.Figure, go.Figure]:
+) -> tuple[go.Figure, go.Figure, str, str]:
     """Return choropleth for given user settings."""
     if scenarios == "scenario_single":
         return (
@@ -79,19 +81,26 @@ def choropleth(  # noqa: PLR0913
                 criteria=criteria,
             ),
             graphs.blank_fig(),
+            "col-12",
+            "col-0",
         )
-    return graphs.get_choropleth(
-        scenario=scenario_1,
-        requirement=requirement,
-        year=year,
-        unit=unit,
-        criteria=criteria,
-    ), graphs.get_choropleth(
-        scenario=scenario_2,
-        requirement=requirement,
-        year=year,
-        unit=unit,
-        criteria=criteria,
+    return (
+        graphs.get_choropleth(
+            scenario=scenario_1,
+            requirement=requirement,
+            year=year,
+            unit=unit,
+            criteria=criteria,
+        ),
+        graphs.get_choropleth(
+            scenario=scenario_2,
+            requirement=requirement,
+            year=year,
+            unit=unit,
+            criteria=criteria,
+        ),
+        "col-6",
+        "col-6",
     )
 
 
@@ -101,38 +110,53 @@ def choropleth(  # noqa: PLR0913
     ],
     [
         Input(component_id="choropleth_1", component_property="clickData"),
+        Input(component_id="choropleth_2", component_property="clickData"),
+        Input(component_id="scenarios", component_property="active_tab"),
+        Input(component_id="scenario", component_property="value"),
+        Input(component_id="scenario_1", component_property="value"),
+        Input(component_id="scenario_2", component_property="value"),
+        Input(component_id="year", component_property="value"),
+        Input(component_id="requirement", component_property="value"),
+        Input(component_id="unit", component_property="value"),
+        Input(component_id="criteria", component_property="value"),
     ],
-    [
-        State(component_id="scenarios", component_property="active_tab"),
-        State(component_id="scenario", component_property="value"),
-        State(component_id="scenario_1", component_property="value"),
-        State(component_id="scenario_2", component_property="value"),
-        State(component_id="year", component_property="value"),
-        State(component_id="requirement", component_property="value"),
-        State(component_id="unit", component_property="value"),
-        State(component_id="criteria", component_property="value"),
-    ],
-    prevent_initial_call=True,
 )
 def bar_chart(  # noqa: PLR0913
-    choropleth_feature: dict,
-    scenarios: str,  # noqa: ARG001
+    choropleth_feature_1: dict,
+    choropleth_feature_2: dict,
+    scenarios: str,
     scenario: str,
-    scenario_1: str,  # noqa: ARG001
-    scenario_2: str,  # noqa: ARG001
+    scenario_1: str,
+    scenario_2: str,
     year: int,
     requirement: str,
     unit: str,
     criteria: list[str],
 ) -> tuple[go.Figure]:
     """Return bar chart for selected region."""
-    region = choropleth_feature["points"][0]["location"]
+    choropleth_triggered = ctx.triggered_id
+    if choropleth_triggered is None or choropleth_triggered in (
+        "scenarios",
+        "scenario_1",
+        "scenario_2",
+        "year",
+        "requirement",
+        "unit",
+        "criteria",
+    ):
+        return (graphs.blank_fig(),)
+    if choropleth_triggered == "choropleth_1":
+        region = choropleth_feature_1["points"][0]["location"]
+    else:
+        region = choropleth_feature_2["points"][0]["location"]
 
-    # TODO (Hendrik): Implement scenario selection (single/comparison)
-    # https://github.com/rl-institut/rgi/issues/1
+    region_scenarios = (
+        [scenario] if scenarios == "scenario_single" else [scenario_1, scenario_2]
+    )
+
     return (
         graphs.get_bar_chart(
-            scenario=scenario,
+            scenarios=region_scenarios,
             requirement=requirement,
             year=year,
             unit=unit,
