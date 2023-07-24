@@ -90,7 +90,7 @@ unit = html.Div(
         ),
     ],
 )
-criteria_options = data.get_criteria()
+criteria_options = data.get_criteria("area")
 criteria = html.Div(
     [
         html.Label("Criteria for requirements:"),

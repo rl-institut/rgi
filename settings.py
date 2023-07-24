@@ -3,7 +3,7 @@
 import os
 import pathlib
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 SECRET_KEY = os.environ.get("SECRET_KEY")

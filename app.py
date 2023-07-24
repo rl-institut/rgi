@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 from dash import Input, Output, ctx
 from plotly import graph_objects as go
 
+import data
 import graphs
 import layout
 import settings
@@ -25,21 +26,36 @@ server.secret_key = settings.SECRET_KEY
     [
         Output(component_id="unit", component_property="options"),
         Output(component_id="unit", component_property="value"),
+        Output(component_id="criteria", component_property="options"),
+        Output(component_id="criteria", component_property="value"),
     ],
     Input(component_id="requirement", component_property="value"),
     prevent_initial_call=True,
 )
-def change_unit(requirement: str) -> tuple[list[dict[str, str]], str]:
+def change_unit(
+    requirement: str,
+) -> tuple[list[dict[str, str]], str, list[dict[str, str]], list[str]]:
     """Change unit related to selected requirement."""
+    criteria = data.get_criteria(requirement)
     if requirement == "area":
-        return [
-            {"label": "Percentage", "value": "rel"},
-            {"label": "Olympic Soccer Fields", "value": "oly_field"},
-        ], "rel"
-    return [
-        {"label": "Mio. m³", "value": "water_miom3"},
-        {"label": "Olympic Swimming Pools", "value": "oly_pool"},
-    ], "water_miom3"
+        return (
+            [
+                {"label": "Percentage", "value": "rel"},
+                {"label": "Olympic Soccer Fields", "value": "oly_field"},
+            ],
+            "rel",
+            [{"label": option, "value": option} for option in criteria],
+            criteria,
+        )
+    return (
+        [
+            {"label": "Mio. m³", "value": "water_miom3"},
+            {"label": "Olympic Swimming Pools", "value": "oly_pool"},
+        ],
+        "water_miom3",
+        [{"label": option, "value": option} for option in criteria],
+        criteria,
+    )
 
 
 @app.callback(

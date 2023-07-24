@@ -67,10 +67,14 @@ def get_years() -> list[int]:
     return areas["target_year"].unique().tolist()
 
 
-def get_criteria() -> list[str]:
+def get_criteria(requirement: str) -> list[str]:
     """Return criteria from dataset."""
-    areas = get_area_requirements(SCENARIOS[0])
-    return areas["type"].unique().tolist()
+    dataset = (
+        get_area_requirements(SCENARIOS[0])
+        if requirement == "area"
+        else get_water_requirements(SCENARIOS[0])
+    )
+    return dataset["type"].unique().tolist()
 
 
 def get_regions() -> dict:
