@@ -153,6 +153,7 @@ def bar_chart(  # noqa: PLR0913
     choropleth_triggered = ctx.triggered_id
     if choropleth_triggered is None or choropleth_triggered in (
         "scenarios",
+        "scenario",
         "scenario_1",
         "scenario_2",
         "year",
