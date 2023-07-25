@@ -7,6 +7,7 @@ import data
 import settings
 
 ONSHORE_GEOJSON_FILENAME = "regions_onshore_elec_s_30.geojson"
+OFFSHORE_GEOJSON_FILENAME = "regions_offshore_elec_s_30.geojson"
 
 SCENARIOS = ["clever", "tyndp_de"]
 
@@ -94,6 +95,14 @@ def get_regions() -> dict:
     with (settings.DATA_DIR / ONSHORE_GEOJSON_FILENAME).open(
         "r",
         encoding="utf-8",
+    ) as geojsonfile:
+        return json.load(geojsonfile)
+
+def get_regions_offshore() -> dict:
+    """Get onshore regions."""
+    with (settings.DATA_DIR / OFFSHORE_GEOJSON_FILENAME).open(
+            "r",
+            encoding="utf-8",
     ) as geojsonfile:
         return json.load(geojsonfile)
 

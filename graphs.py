@@ -61,6 +61,7 @@ def get_choropleth(
     # add pretty name for hovering box
     df["pretty_name"] = df.name.str[:3]
     geojson = data.get_regions()
+    geojson_offshore = data.get_regions_offshore()
 
     fig = px.choropleth(
         df,
@@ -74,6 +75,20 @@ def get_choropleth(
         labels=pretty_labels,
         range_color=(min_max[0][unit], min_max[1][unit]),
     )
+
+    fig2 = px.choropleth(
+        df,
+        geojson=geojson_offshore,
+        locations="name",
+        color=unit,
+        # opacity=0.1,
+        featureidkey="properties.name",
+        hover_name="pretty_name",
+        hover_data={"name": False, unit: True},
+        labels=pretty_labels,
+    )
+
+    fig.add_trace(fig2.data[0])
 
     fig.update_layout(
         margin={"l": 0, "r": 0, "b": 0, "t": 75},
