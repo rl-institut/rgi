@@ -50,7 +50,7 @@ scenario = dbc.Tabs(
                 ),
             ],
         ),
-    ],
+    ], style={"margin-bottom": "20px"}
 )
 year_options = data.get_years()
 year = html.Div(
@@ -62,7 +62,7 @@ year = html.Div(
             marks={year: str(year) for year in year_options},
             value=year_options[0],
         ),
-    ],
+    ], style={"margin-bottom": "20px", "margin-top": "20px"}
 )
 requirements = html.Div(
     [
@@ -75,7 +75,7 @@ requirements = html.Div(
             ],
             value="area",
         ),
-    ],
+    ], style={"margin-bottom": "20px"}
 )
 unit = html.Div(
     [
@@ -100,7 +100,7 @@ criteria = html.Div(
             value=criteria_options,
             multi=True,
         ),
-    ],
+    ], style={"margin-top": "20px"}
 )
 
 region = html.Section(
