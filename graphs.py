@@ -52,12 +52,21 @@ def get_choropleth(
         year=year,
         criteria=criteria,
     )
-    df = (
-        df[["name", "target_year", unit]]
-        .groupby(["name", "target_year"])
-        .sum()
-        .reset_index()
-    )
+    if unit == "rel":
+        df = (
+            df[["name", "target_year", unit]]
+            .groupby(["name", "target_year"])
+            .mean()
+            .reset_index()
+        )
+    else:
+        df = (
+            df[["name", "target_year", unit]]
+            .groupby(["name", "target_year"])
+            .sum()
+            .reset_index()
+        )
+
     # add pretty name for hovering box
     df["pretty_name"] = df.name.str[:3]
     df["offshore_color"] = np.repeat("offshore", len(df))
@@ -91,8 +100,6 @@ def get_choropleth(
         hover_data={"name": False, unit: False, "offshore_color": False},
         labels=pretty_labels,
     )
-
-    # fig2.update_layout(showlegend=False)
 
     fig.add_trace(fig2.data[0])
 

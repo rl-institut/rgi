@@ -112,7 +112,9 @@ def get_min_max(req) -> (pd.DataFrame, pd.DataFrame):
     if req == "area":
         for scenario in SCENARIOS:
             data_dict[scenario] = data.get_area_requirements(scenario)
-        data_df = pd.concat(data_dict)[["area_km2", "oly_field", "rel"]].reset_index(drop=True)
+        data_df = pd.concat(data_dict)
+        data_df = data_df.groupby(["bus"]).aggregate({"area_km2": "sum", "oly_field": "sum", "rel": "mean"})[
+            ["area_km2", "oly_field", "rel"]].reset_index(drop=True)
     elif req == "water":
         for scenario in SCENARIOS:
             data_dict[scenario] = data.get_water_requirements(scenario)
