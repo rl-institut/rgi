@@ -68,7 +68,7 @@ def get_choropleth(
         )
 
     # add pretty name for hovering box
-    df["pretty_name"] = df.name.str[:3]
+    df["pretty_name"] = df.name.str[:5]
     df["offshore_color"] = np.repeat("offshore", len(df))
 
     geojson = data.get_regions()
@@ -101,7 +101,8 @@ def get_choropleth(
         labels=pretty_labels,
     )
 
-    fig.add_trace(fig2.data[0])
+    if len(criteria) > 0:
+        fig.add_trace(fig2.data[0])
 
     fig.update_layout(
         showlegend=False,
