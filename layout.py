@@ -126,6 +126,9 @@ atlas = dbc.Row(
             children=[
                 dcc.Graph(
                     id="choropleth_2",
+                    config={
+                            'displayModeBar': False
+                        }
                 ),
             ],
         ),
@@ -138,9 +141,17 @@ controls = html.Section(
 
 DEFAULT_LAYOUT = dbc.Container(
     [
+        # add empty row as header space
+        dbc.Row([
+            dbc.Col([
+                html.P()
+            ])
+        ]),
+        # row with choropleth map
         dbc.Row(
             [dbc.Col(atlas, className="col-9"), dbc.Col(controls, className="col-3")],
         ),
+        # row with bar chart
         dbc.Row(dbc.Col(region, className="col-9")),
-    ],
+    ], fluid=True,
 )

@@ -9,17 +9,24 @@ import data
 import graphs
 import layout
 import settings
+from flask_caching import Cache
 
 app = dash.Dash(
     __name__,
     meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=4.0"},
     ],
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    external_stylesheets=["assets/custom.css", dbc.themes.BOOTSTRAP],
 )
 app.layout = layout.DEFAULT_LAYOUT
 server = app.server
 server.secret_key = settings.SECRET_KEY
+
+cache = Cache(app.server, config={
+    # try 'filesystem' if you don't want to setup redis
+    'CACHE_TYPE': 'filesystem',
+    'CACHE_DIR': 'cache-directory'
+})
 
 
 @app.callback(
@@ -95,10 +102,11 @@ def choropleth(  # noqa: PLR0913
                 year=year,
                 unit=unit,
                 criteria=criteria,
+                min_max=get_min_max(requirement),
             ),
             graphs.blank_fig(),
-            "col-12",
-            "col-0",
+            "col-11",
+            "col-1",
         )
     return (
         graphs.get_choropleth(
@@ -107,6 +115,7 @@ def choropleth(  # noqa: PLR0913
             year=year,
             unit=unit,
             criteria=criteria,
+            min_max=get_min_max(requirement),
         ),
         graphs.get_choropleth(
             scenario=scenario_2,
@@ -114,6 +123,7 @@ def choropleth(  # noqa: PLR0913
             year=year,
             unit=unit,
             criteria=criteria,
+            min_max=get_min_max(requirement),
         ),
         "col-6",
         "col-6",
@@ -181,6 +191,10 @@ def bar_chart(  # noqa: PLR0913
             region=region,
         ),
     )
+
+@cache.memoize(timeout=0)
+def get_min_max(req):
+    return data.get_min_max(req)
 
 
 if __name__ == "__main__":
