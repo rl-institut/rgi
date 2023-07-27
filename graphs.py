@@ -1,5 +1,5 @@
 """Holds functionality for plotly graphs."""
-
+import numpy as np
 import pandas as pd
 from plotly import express as px
 from plotly import graph_objects as go
@@ -52,15 +52,27 @@ def get_choropleth(
         year=year,
         criteria=criteria,
     )
-    df = (
-        df[["name", "target_year", unit]]
-        .groupby(["name", "target_year"])
-        .sum()
-        .reset_index()
-    )
+    if unit == "rel":
+        df = (
+            df[["name", "target_year", unit]]
+            .groupby(["name", "target_year"])
+            .mean()
+            .reset_index()
+        )
+    else:
+        df = (
+            df[["name", "target_year", unit]]
+            .groupby(["name", "target_year"])
+            .sum()
+            .reset_index()
+        )
+
     # add pretty name for hovering box
-    df["pretty_name"] = df.name.str[:3]
+    df["pretty_name"] = df.name.str[:5]
+    df["offshore_color"] = np.repeat("offshore", len(df))
+
     geojson = data.get_regions()
+    geojson_offshore = data.get_regions_offshore()
 
     # add color scale
     if requirement == "area":
@@ -82,7 +94,25 @@ def get_choropleth(
         range_color=(min_max[0][unit], min_max[1][unit]),
     )
 
+    fig2 = px.choropleth(
+        df,
+        geojson=geojson_offshore,
+        locations='name',
+        color="offshore_color",
+        color_discrete_map={
+            'offshore': '#8AC7DB'},
+        # opacity=0.1,
+        featureidkey="properties.name",
+        hover_name=df.pretty_name + " Offshore",
+        hover_data={"name": False, unit: False, "offshore_color": False},
+        labels=pretty_labels,
+    )
+
+    if len(criteria) > 0:
+        fig.add_trace(fig2.data[0])
+
     fig.update_layout(
+        showlegend=False,
         margin={"l": 0, "r": 0, "b": 0, "t": 75},
         font_family=FONT,
         title={"text": title},
@@ -90,6 +120,7 @@ def get_choropleth(
     )
 
     fig.update_geos(
+        scope="europe",
         fitbounds="locations",
         visible=False,
         resolution=50,
@@ -167,7 +198,12 @@ def get_bar_chart(  # noqa: PLR0913
         font_family=FONT,
         plot_bgcolor="rgba(0,0,0,0)",
         margin=dict(t=75),
-        # legend={"orientation": "h"},
+        legend=dict(
+            traceorder="reversed",
+            bgcolor="LightSteelBlue",
+            bordercolor="Black",
+            borderwidth=2
+        ),
         hoverlabel={"bgcolor": "white", "font_size": 12, "font_family": FONT}
     )
 
