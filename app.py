@@ -22,11 +22,14 @@ app.layout = layout.DEFAULT_LAYOUT
 server = app.server
 server.secret_key = settings.SECRET_KEY
 
-cache = Cache(app.server, config={
-    # try 'filesystem' if you don't want to setup redis
-    'CACHE_TYPE': 'filesystem',
-    'CACHE_DIR': 'cache-directory'
-})
+cache = Cache(
+    app.server,
+    config={
+        # try 'filesystem' if you don't want to setup redis
+        "CACHE_TYPE": "filesystem",
+        "CACHE_DIR": "cache-directory",
+    },
+)
 
 
 @app.callback(
@@ -192,8 +195,10 @@ def bar_chart(  # noqa: PLR0913
         ),
     )
 
-#@cache.memoize(timeout=0)
-def get_min_max(req, criteria):
+
+# @cache.memoize(timeout=0)
+def get_min_max(req: str, criteria: [str]) -> tuple:
+    """Get min and max values for each unit in tuple of pd.DataFrames."""
     return data.get_min_max(req, criteria)
 
 

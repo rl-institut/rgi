@@ -50,7 +50,8 @@ scenario = dbc.Tabs(
                 ),
             ],
         ),
-    ], style={"margin-bottom": "20px"}
+    ],
+    style={"margin-bottom": "10px"},
 )
 year_options = data.get_years()
 year = html.Div(
@@ -62,7 +63,8 @@ year = html.Div(
             marks={year: str(year) for year in year_options},
             value=year_options[0],
         ),
-    ], style={"margin-bottom": "20px", "margin-top": "20px"}
+    ],
+    style={"margin-bottom": "10px", "margin-top": "10px"},
 )
 requirements = html.Div(
     [
@@ -75,7 +77,8 @@ requirements = html.Div(
             ],
             value="area",
         ),
-    ], style={"margin-bottom": "20px"}
+    ],
+    style={"margin-bottom": "10px"},
 )
 unit = html.Div(
     [
@@ -100,7 +103,8 @@ criteria = html.Div(
             value=criteria_options,
             multi=True,
         ),
-    ], style={"margin-top": "20px"}
+    ],
+    style={"margin-top": "10px"},
 )
 
 region = html.Section(
@@ -124,12 +128,7 @@ atlas = dbc.Row(
         dbc.Col(
             id="col_choropleth_2",
             children=[
-                dcc.Graph(
-                    id="choropleth_2",
-                    config={
-                            'displayModeBar': False
-                        }
-                ),
+                dcc.Graph(id="choropleth_2", config={"displayModeBar": False}),
             ],
         ),
     ],
@@ -141,17 +140,25 @@ controls = html.Section(
 
 DEFAULT_LAYOUT = dbc.Container(
     [
-        # add empty row as header space
-        dbc.Row([
-            dbc.Col([
-                html.P()
-            ])
-        ]),
         # row with choropleth map
         dbc.Row(
-            [dbc.Col(atlas, className="col-9"), dbc.Col(controls, className="col-3")],
+            [
+                dbc.Col(
+                    atlas,
+                    className="col-8",
+                    style={
+                        "border": "2px black solid",
+                        "background-color": "rgba(0,0,0,0)",
+                        "margin-left": "10px",
+                        "margin-right": "50px",
+                        "margin-top": "10px",
+                    },
+                ),
+                dbc.Col(controls, className="col-3", style={"margin-top": "10px"}),
+            ],
         ),
         # row with bar chart
-        dbc.Row(dbc.Col(region, className="col-9")),
-    ], fluid=True,
+        dbc.Row(dbc.Col(region, className="col-9"), style={"margin-right": "150px"}),
+    ],
+    fluid=True,
 )

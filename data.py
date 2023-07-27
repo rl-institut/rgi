@@ -11,6 +11,28 @@ OFFSHORE_GEOJSON_FILENAME = "regions_offshore_elec_s_50.geojson"
 
 SCENARIOS = ["clever", "tyndp_de"]
 
+tech_dict_area = {
+    "H2 Electrolysis": "Electrolyser",
+    "H2 Store": "H2 storage",
+    "grid": "Grid",
+    "offwind": "Offshore wind",
+    "onwind": "Onshore wind",
+    "solar": "PV",
+    "solar rooftop": "PV rooftop",
+}
+tech_dict_water = {
+    "H2 Electrolysis": "Electrolyser",
+    "gas": "Gas",
+    "CCGT": "Gas",
+    "OCGT": "Gas",
+    "hydro": "Hydro",
+    "ror": "Hydro",
+    "coal": "Coal",
+    "lignite": "Lignite",
+    "nuclear": "Nuclear",
+    "oil": "Oil",
+}
+
 
 def prepare_data(
     scenario: str,
@@ -25,33 +47,11 @@ def prepare_data(
         else data.get_water_requirements(scenario)
     )
 
-    if requirement == "area":
-        df = df.replace(
-            {
-                "H2 Electrolysis": "Electrolyser",
-                "H2 Store": "H2 storage",
-                "grid": "Grid",
-                "offwind": "Offshore wind",
-                "onwind": "Onshore wind",
-                "solar": "PV",
-                "solar rooftop": "PV rooftop",
-            },
-        )
-    else:
-        df = df.replace(
-            {
-                "H2 Electrolysis": "Electrolyser",
-                "gas": "Gas",
-                "CCGT": "Gas",
-                "OCGT": "Gas",
-                "hydro": "Hydro",
-                "ror": "Hydro",
-                "coal": "Coal",
-                "lignite": "Lignite",
-                "nuclear": "Nuclear",
-                "oil": "Oil",
-            },
-        )
+    df = (
+        df.replace(tech_dict_area)
+        if requirement == "area"
+        else df.replace(tech_dict_water)
+    )
 
     df = df[df.target_year == year]
     df = df[df["type"].isin(criteria)]
@@ -90,33 +90,11 @@ def get_criteria(requirement: str) -> list[str]:
         else get_water_requirements(SCENARIOS[0])
     )
 
-    if requirement == "area":
-        dataset = dataset.replace(
-            {
-                "H2 Electrolysis": "Electrolyser",
-                "H2 Store": "H2 storage",
-                "grid": "Grid",
-                "offwind": "Offshore wind",
-                "onwind": "Onshore wind",
-                "solar": "PV",
-                "solar rooftop": "PV rooftop",
-            },
-        )
-    else:
-        dataset = dataset.replace(
-            {
-                "H2 Electrolysis": "Electrolyser",
-                "gas": "Gas",
-                "CCGT": "Gas",
-                "OCGT": "Gas",
-                "hydro": "Hydro",
-                "ror": "Hydro",
-                "coal": "Coal",
-                "lignite": "Lignite",
-                "nuclear": "Nuclear",
-                "oil": "Oil",
-            },
-        )
+    dataset = (
+        dataset.replace(tech_dict_area)
+        if requirement == "area"
+        else dataset.replace(tech_dict_water)
+    )
 
     return dataset["type"].unique().tolist()
 
@@ -130,7 +108,6 @@ def get_regions() -> dict:
         return json.load(geojsonfile)
 
 
-      
 def get_regions_offshore() -> dict:
     """Get onshore regions."""
     with (settings.DATA_DIR / OFFSHORE_GEOJSON_FILENAME).open(
@@ -146,6 +123,9 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
     if req == "area":
         for scenario in SCENARIOS:
             df = data.get_area_requirements(scenario)
+            df = df.replace(
+                tech_dict_area,
+            )
             data_dict[scenario] = df[df["type"].isin(criteria)]
 
         data_df = pd.concat(data_dict)
@@ -158,7 +138,11 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
         )
     elif req == "water":
         for scenario in SCENARIOS:
-            data_dict[scenario] = data.get_water_requirements(scenario)
+            df = data.get_water_requirements(scenario)
+            df = df.replace(
+                tech_dict_water,
+            )
+            data_dict[scenario] = df[df["type"].isin(criteria)]
         data_df = pd.concat(data_dict)
         data_df = (
             data_df.groupby(["bus", "target_year", "sce_name"])
