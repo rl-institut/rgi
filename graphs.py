@@ -8,6 +8,7 @@ import data
 
 # add font variable to adjust graph font
 FONT = "Lato"
+FONT_COLOR = "#1f2120"
 
 # pretty labels for pretty plotting
 pretty_labels = {
@@ -22,8 +23,9 @@ pretty_labels = {
     "electrolyser": "Electrolyser",
     "hydrogen storage": "H2 Storage",
     "clever": "CLEVER",
-    "tyndp_de": "TYNDP_de"
+    "tyndp_de": "TYNDP_DE",
 }
+
 
 def blank_fig() -> go.Figure:
     """Return empty figure."""
@@ -40,10 +42,9 @@ def get_choropleth(
     year: int,
     unit: str,
     criteria: list[str],
-    min_max: tuple[pd.DataFrame, pd.DataFrame]
+    min_max: tuple[pd.DataFrame, pd.DataFrame],
 ) -> px.choropleth:
     """Return choropleth for given user settings."""
-
     title = f"{pretty_labels[scenario]} spatial {requirement} requirement for {year}"
 
     df = data.prepare_data(
@@ -97,26 +98,39 @@ def get_choropleth(
     fig2 = px.choropleth(
         df,
         geojson=geojson_offshore,
-        locations='name',
+        locations="name",
         color="offshore_color",
-        color_discrete_map={
-            'offshore': '#8AC7DB'},
-        # opacity=0.1,
+        color_discrete_map={"offshore": "#8AC7DB"},
         featureidkey="properties.name",
         hover_name=df.pretty_name + " Offshore",
-        hover_data={"name": False, unit: False, "offshore_color": False},
+        hover_data={"name": False, unit: True, "offshore_color": False},
         labels=pretty_labels,
     )
 
     if len(criteria) > 0:
         fig.add_trace(fig2.data[0])
 
+    # # add border around plot
+    # fig.add_shape(
+    #     # Rectangle with reference to the plot
+    #         color="#1f2120",
+
     fig.update_layout(
         showlegend=False,
-        margin={"l": 0, "r": 0, "b": 0, "t": 75},
+        margin={"l": 2, "r": 2, "b": 2, "t": 75},
         font_family=FONT,
+        font_color=FONT_COLOR,
         title={"text": title},
-        hoverlabel={"bgcolor": "white", "font_size": 12, "font_family": FONT}
+        hoverlabel={
+            "bgcolor": "white",
+            "font_size": 12,
+            "font_family": FONT,
+            "font_color": FONT_COLOR,
+        },
+        # set position of color bar
+        coloraxis_colorbar_x=1,
+        # change background color of map
+        geo={"bgcolor": "rgba(0,0,0,0)"},  # rgba(0,0,0,0) for no color
     )
 
     fig.update_geos(
@@ -124,11 +138,11 @@ def get_choropleth(
         fitbounds="locations",
         visible=False,
         resolution=50,
-        showcoastlines=True, coastlinecolor="lightgrey",
-        showocean=True, oceancolor="LightBlue"
+        showcoastlines=True,
+        coastlinecolor="lightgrey",
+        showocean=True,
+        oceancolor="LightBlue",
     )
-
-    # fig.layout.coloraxis.colorbar.title = pretty_labels[unit]
 
     return fig
 
@@ -142,8 +156,6 @@ def get_bar_chart(  # noqa: PLR0913
     region: str,
 ) -> go.Figure:
     """Return bar chart for selected region."""
-    # title = f"{requirement.capitalize()} requirement by technology type"
-
     df = pd.concat(
         data.prepare_data(
             scenario=scenario,
@@ -166,7 +178,7 @@ def get_bar_chart(  # noqa: PLR0913
             "Electrolyser": "#7d5ba6",
             "Grid": "#9bb765",
             "nature-protected areas": "#627732",
-            "cities&industry": "#adadad"
+            "cities&industry": "#adadad",
         }
     else:
         bar_palette = {
@@ -188,34 +200,38 @@ def get_bar_chart(  # noqa: PLR0913
         color="type",
         color_discrete_map=bar_palette,
         hover_name="type",
-        hover_data={"name": False, "type":False, unit: True},
-        labels=pretty_labels
+        hover_data={"name": False, "type": False, unit: True},
+        labels=pretty_labels,
     )
-    fig.for_each_annotation(lambda a: a.update(text=""))
+    # change annotation above graph to only show scenario name; optional: give text="" for no annotation
+    fig.for_each_annotation(lambda a: a.update(text=f"{a.text[9:].upper()}: {region}"))
 
     fig.update_layout(
-        # title={"text": title},
         font_family=FONT,
+        font_color=FONT_COLOR,
         plot_bgcolor="rgba(0,0,0,0)",
-        margin=dict(t=75),
-        legend=dict(
-            traceorder="reversed",
-            bgcolor="LightSteelBlue",
-            bordercolor="Black",
-            borderwidth=2
-        ),
-        hoverlabel={"bgcolor": "white", "font_size": 12, "font_family": FONT}
+        margin={"t": 75},
+        legend={
+            "traceorder": "reversed",
+            "bgcolor": "#f5f7f7",
+            "bordercolor": "#1f2120",
+            "borderwidth": 2,
+        },
+        hoverlabel={
+            "bgcolor": "white",
+            "font_size": 12,
+            "font_family": FONT,
+            "font_color": FONT_COLOR,
+        },
     )
 
     fig.update_yaxes(
-        ticks='outside',
+        ticks="outside",
         showline=False,
-        linecolor='lightgrey',
-        gridcolor='lightgrey'
+        linecolor="lightgrey",
+        gridcolor="lightgrey",
     )
 
-    fig.update_xaxes(
-        linecolor='lightgrey'
-    )
+    fig.update_xaxes(linecolor="lightgrey")
 
     return fig
