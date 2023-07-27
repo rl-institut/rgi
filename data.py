@@ -37,7 +37,7 @@ def prepare_data(
                 "offwind": "Offshore wind",
                 "onwind": "Onshore wind",
                 "solar": "PV",
-                "solar rooftop": "PV rooftop"
+                "solar rooftop": "PV rooftop",
             },
         )
     else:
@@ -50,7 +50,7 @@ def prepare_data(
                 "coal": "Coal",
                 "lignite": "Lignite",
                 "nuclear": "Nuclear",
-                "oil": "Oil"
+                "oil": "Oil",
             },
         )
     df = df.rename(columns={"bus": "name"})
@@ -98,15 +98,17 @@ def get_regions() -> dict:
     ) as geojsonfile:
         return json.load(geojsonfile)
 
+
 def get_regions_offshore() -> dict:
     """Get onshore regions."""
     with (settings.DATA_DIR / OFFSHORE_GEOJSON_FILENAME).open(
-            "r",
-            encoding="utf-8",
+        "r",
+        encoding="utf-8",
     ) as geojsonfile:
         return json.load(geojsonfile)
 
-def get_min_max(req, criteria) -> (pd.DataFrame, pd.DataFrame):
+
+def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
     """Get min and max values for each unit of area requirement."""
     data_dict = {}
     if req == "area":
@@ -115,22 +117,29 @@ def get_min_max(req, criteria) -> (pd.DataFrame, pd.DataFrame):
             data_dict[scenario] = df[df["type"].isin(criteria)]
 
         data_df = pd.concat(data_dict)
-        data_df = (data_df
-                   .groupby(["bus", "target_year", "sce_name"])
-                   .aggregate({"area_km2": "sum", "oly_field": "sum", "rel": "mean"})[["area_km2", "oly_field", "rel"]]
-                   .reset_index(drop=True)
-                   )
+        data_df = (
+            data_df.groupby(["bus", "target_year", "sce_name"])
+            .aggregate({"area_km2": "sum", "oly_field": "sum", "rel": "mean"})[
+                ["area_km2", "oly_field", "rel"]
+            ]
+            .reset_index(drop=True)
+        )
     elif req == "water":
         for scenario in SCENARIOS:
             data_dict[scenario] = data.get_water_requirements(scenario)
         data_df = pd.concat(data_dict)
-        data_df = (data_df
-                   .groupby(["bus", "target_year", "sce_name"])
-                   .sum()[["water_miom3", "oly_pool"]]
-                   .reset_index(drop=True)
-                   )
+        data_df = (
+            data_df.groupby(["bus", "target_year", "sce_name"])
+            .sum()[["water_miom3", "oly_pool"]]
+            .reset_index(drop=True)
+        )
     else:
-        raise Exception("Invalid requirement. Call for either 'area' or 'water'.")
+        msg = "Invalid requirement. Call for either 'area' or 'water'."
+
+        class ExceptionReqError(Exception):
+            pass
+
+        raise ExceptionReqError(msg)
 
     min_vals = data_df.min()
     max_vals = data_df.max()
