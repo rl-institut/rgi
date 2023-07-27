@@ -25,9 +25,6 @@ def prepare_data(
         else data.get_water_requirements(scenario)
     )
 
-    df = df[df.target_year == year]
-    df = df[df["type"].isin(criteria)]
-
     if requirement == "area":
         df = df.replace(
             {
@@ -44,8 +41,10 @@ def prepare_data(
         df = df.replace(
             {
                 "H2 Electrolysis": "Electrolyser",
+                "gas": "Gas",
                 "CCGT": "Gas",
                 "OCGT": "Gas",
+                "hydro": "Hydro",
                 "ror": "Hydro",
                 "coal": "Coal",
                 "lignite": "Lignite",
@@ -53,6 +52,9 @@ def prepare_data(
                 "oil": "Oil",
             },
         )
+
+    df = df[df.target_year == year]
+    df = df[df["type"].isin(criteria)]
     df = df.rename(columns={"bus": "name"})
     return df
 
@@ -87,6 +89,35 @@ def get_criteria(requirement: str) -> list[str]:
         if requirement == "area"
         else get_water_requirements(SCENARIOS[0])
     )
+
+    if requirement == "area":
+        dataset = dataset.replace(
+            {
+                "H2 Electrolysis": "Electrolyser",
+                "H2 Store": "H2 storage",
+                "grid": "Grid",
+                "offwind": "Offshore wind",
+                "onwind": "Onshore wind",
+                "solar": "PV",
+                "solar rooftop": "PV rooftop",
+            },
+        )
+    else:
+        dataset = dataset.replace(
+            {
+                "H2 Electrolysis": "Electrolyser",
+                "gas": "Gas",
+                "CCGT": "Gas",
+                "OCGT": "Gas",
+                "hydro": "Hydro",
+                "ror": "Hydro",
+                "coal": "Coal",
+                "lignite": "Lignite",
+                "nuclear": "Nuclear",
+                "oil": "Oil",
+            },
+        )
+
     return dataset["type"].unique().tolist()
 
 
@@ -99,6 +130,7 @@ def get_regions() -> dict:
         return json.load(geojsonfile)
 
 
+      
 def get_regions_offshore() -> dict:
     """Get onshore regions."""
     with (settings.DATA_DIR / OFFSHORE_GEOJSON_FILENAME).open(

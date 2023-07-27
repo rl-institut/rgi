@@ -7,7 +7,7 @@ from plotly import graph_objects as go
 import data
 
 # add font variable to adjust graph font
-FONT = "Rockwell"
+FONT = "Lato"
 
 # pretty labels for pretty plotting
 pretty_labels = {
@@ -74,11 +74,18 @@ def get_choropleth(
     geojson = data.get_regions()
     geojson_offshore = data.get_regions_offshore()
 
+    # add color scale
+    if requirement == "area":
+        scale = [(0, "#c3ddd2"), (0.33, "#82af9c"), (0.66, "#557c69"), (1, "#31493e")]
+    else:
+        scale = [(0, "#d0edf4"), (0.33, "#8cd0d3"), (0.66, "#5091a0"), (1, "#2e5460")]
+
     fig = px.choropleth(
         df,
         geojson=geojson,
         locations="name",
         color=unit,
+        color_continuous_scale=scale,
         scope="europe",
         featureidkey="properties.name",
         hover_name="pretty_name",
@@ -148,6 +155,30 @@ def get_bar_chart(  # noqa: PLR0913
     )
     df = df[df["name"] == region]
 
+    # add color palette for bar chart
+    if requirement == "area":
+        bar_palette = {
+            "Onshore wind": "#d0edf4",
+            "Offshore wind": "#0FB3CE",
+            "PV": "#FFB703",
+            "PV rooftop": "#DA7635",
+            "H2 storage": "#b09ac1",
+            "Electrolyser": "#7d5ba6",
+            "Grid": "#9bb765",
+            "nature-protected areas": "#627732",
+            "cities&industry": "#adadad"
+        }
+    else:
+        bar_palette = {
+            "Hydro": "#d0edf4",
+            "Nuclear": "#5091a0",
+            "Oil": "#f9dbbd",
+            "Gas": "#9B2226",
+            "Lignite": "#adadad",
+            "Coal": "#4c4c4c",
+            "Electrolyser": "#7d5ba6",
+        }
+
     fig = px.bar(
         df,
         x="target_year",
@@ -155,6 +186,7 @@ def get_bar_chart(  # noqa: PLR0913
         facet_col="sce_name",
         barmode="group",
         color="type",
+        color_discrete_map=bar_palette,
         hover_name="type",
         hover_data={"name": False, "type":False, unit: True},
         labels=pretty_labels
