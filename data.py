@@ -6,8 +6,8 @@ import pandas as pd
 import data
 import settings
 
-ONSHORE_GEOJSON_FILENAME = "regions_onshore_elec_s_30.geojson"
-OFFSHORE_GEOJSON_FILENAME = "regions_offshore_elec_s_30.geojson"
+ONSHORE_GEOJSON_FILENAME = "regions_onshore_elec_s_50.geojson"
+OFFSHORE_GEOJSON_FILENAME = "regions_offshore_elec_s_50.geojson"
 
 SCENARIOS = ["clever", "tyndp_de"]
 
@@ -108,20 +108,30 @@ def get_regions_offshore() -> dict:
         return json.load(geojsonfile)
 
 
-def get_min_max(req: str) -> (pd.DataFrame, pd.DataFrame):
+def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
     """Get min and max values for each unit of area requirement."""
     data_dict = {}
     if req == "area":
         for scenario in SCENARIOS:
-            data_dict[scenario] = data.get_area_requirements(scenario)
-        data_df = pd.concat(data_dict)[["area_km2", "oly_field", "rel"]].reset_index(
-            drop=True,
+            df = data.get_area_requirements(scenario)
+            data_dict[scenario] = df[df["type"].isin(criteria)]
+
+        data_df = pd.concat(data_dict)
+        data_df = (
+            data_df.groupby(["bus", "target_year", "sce_name"])
+            .aggregate({"area_km2": "sum", "oly_field": "sum", "rel": "mean"})[
+                ["area_km2", "oly_field", "rel"]
+            ]
+            .reset_index(drop=True)
         )
     elif req == "water":
         for scenario in SCENARIOS:
             data_dict[scenario] = data.get_water_requirements(scenario)
-        data_df = pd.concat(data_dict)[["water_miom3", "oly_pool"]].reset_index(
-            drop=True,
+        data_df = pd.concat(data_dict)
+        data_df = (
+            data_df.groupby(["bus", "target_year", "sce_name"])
+            .sum()[["water_miom3", "oly_pool"]]
+            .reset_index(drop=True)
         )
     else:
         msg = "Invalid requirement. Call for either 'area' or 'water'."

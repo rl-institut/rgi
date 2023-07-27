@@ -102,7 +102,7 @@ def choropleth(  # noqa: PLR0913
                 year=year,
                 unit=unit,
                 criteria=criteria,
-                min_max=get_min_max(requirement),
+                min_max=get_min_max(requirement, criteria),
             ),
             graphs.blank_fig(),
             "col-11",
@@ -115,7 +115,7 @@ def choropleth(  # noqa: PLR0913
             year=year,
             unit=unit,
             criteria=criteria,
-            min_max=get_min_max(requirement),
+            min_max=get_min_max(requirement, criteria),
         ),
         graphs.get_choropleth(
             scenario=scenario_2,
@@ -123,7 +123,7 @@ def choropleth(  # noqa: PLR0913
             year=year,
             unit=unit,
             criteria=criteria,
-            min_max=get_min_max(requirement),
+            min_max=get_min_max(requirement, criteria),
         ),
         "col-6",
         "col-6",
@@ -192,9 +192,9 @@ def bar_chart(  # noqa: PLR0913
         ),
     )
 
-@cache.memoize(timeout=0)
-def get_min_max(req):
-    return data.get_min_max(req)
+#@cache.memoize(timeout=0)
+def get_min_max(req, criteria):
+    return data.get_min_max(req, criteria)
 
 
 if __name__ == "__main__":
