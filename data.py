@@ -20,6 +20,8 @@ tech_dict_area = {
     "onwind": "Onshore wind",
     "solar": "PV",
     "solar rooftop": "PV rooftop",
+    "protected area": "Nature-protected area",
+    "urban area": "Urban & industrial area",
 }
 tech_dict_water = {
     "H2 Electrolysis": "Electrolyser",
@@ -32,6 +34,7 @@ tech_dict_water = {
     "lignite": "Lignite",
     "nuclear": "Nuclear",
     "oil": "Oil",
+    "biomass": "Biomass",
 }
 
 
