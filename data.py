@@ -6,6 +6,7 @@ import pandas as pd
 import data
 import settings
 
+COUNTRY_SHAPES = "regions_onshore_elec_s_30.geojson"
 ONSHORE_GEOJSON_FILENAME = "regions_onshore_elec_s_50.geojson"
 OFFSHORE_GEOJSON_FILENAME = "regions_offshore_elec_s_50.geojson"
 
@@ -106,6 +107,42 @@ def get_regions() -> dict:
         encoding="utf-8",
     ) as geojsonfile:
         return json.load(geojsonfile)
+
+
+def get_country_shapes() -> dict:
+    """Get onshore regions."""
+    with (settings.DATA_DIR / COUNTRY_SHAPES).open(
+        "r",
+        encoding="utf-8",
+    ) as geojsonfile:
+        return json.load(geojsonfile)
+
+
+# function to get state boundaries from country shapes geojson
+def state_boundaries(geojdata: object) -> tuple:
+    """Extract longitudes and latitudes from geojson file."""
+    # code from
+    # https://community.plotly.com/t/in-choropleth-how-to-create-outline-for-country-and-differentiate-that-particular-countries-states/67013/4
+    pts = (
+        []
+    )  # list of points defining boundaries of polygons, pts has as coordinates the lon and lat
+    for feature in geojdata["features"]:
+        if feature["geometry"]["type"] == "Polygon":
+            pts.extend(feature["geometry"]["coordinates"][0])
+            pts.append([None, None])  # mark the end of a polygon
+
+        elif feature["geometry"]["type"] == "MultiPolygon":
+            for polyg in feature["geometry"]["coordinates"]:
+                pts.extend(polyg[0])
+                pts.append([None, None])  # end of polygon
+        elif feature["geometry"]["type"] == "LineString":
+            pts.extend(feature["geometry"]["coordinates"])
+            pts.append([None, None])
+        else:
+            pass
+        # else: raise ValueError("geometry type irrelevant for map")
+    lons, lats = zip(*pts)
+    return lons, lats
 
 
 def get_regions_offshore() -> dict:
