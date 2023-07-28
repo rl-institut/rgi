@@ -194,8 +194,8 @@ def get_bar_chart(  # noqa: PLR0913
             "H2 storage": "#b09ac1",
             "Electrolyser": "#7d5ba6",
             "Grid": "#9bb765",
-            "nature-protected areas": "#627732",
-            "cities&industry": "#adadad",
+            "Nature-protected area": "#627732",
+            "Urban & industrial area": "#adadad",
         }
     else:
         bar_palette = {
