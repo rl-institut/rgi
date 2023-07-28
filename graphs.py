@@ -74,6 +74,8 @@ def get_choropleth(
 
     geojson = data.get_regions()
     geojson_offshore = data.get_regions_offshore()
+    geojson_country_shapes = data.get_country_shapes()
+    lons, lats = data.state_boundaries(geojson_country_shapes)
 
     # add color scale
     if requirement == "area":
@@ -95,25 +97,38 @@ def get_choropleth(
         range_color=(min_max[0][unit], min_max[1][unit]),
     )
 
+    # for offshore regions
     fig2 = px.choropleth(
         df,
         geojson=geojson_offshore,
         locations="name",
         color="offshore_color",
-        color_discrete_map={"offshore": "#8AC7DB"},
+        color_discrete_map={
+            "offshore": "white",
+        },  # #8AC7DB as alternative blue offshore color
         featureidkey="properties.name",
         hover_name=df.pretty_name + " Offshore",
         hover_data={"name": False, unit: True, "offshore_color": False},
         labels=pretty_labels,
     )
 
-    if len(criteria) > 0:
-        fig.add_trace(fig2.data[0])
+    # for country borders
+    fig3 = go.Figure(
+        go.Scattergeo(
+            lon=lons,
+            lat=lats,
+            mode="lines",
+            line_width=1.5,
+            line_color="#1f2120",  # can also set this to white or other if country borders should be different
+            hoverinfo="skip",
+        ),
+    )
 
-    # # add border around plot
-    # fig.add_shape(
-    #     # Rectangle with reference to the plot
-    #         color="#1f2120",
+    if len(criteria) > 0:
+        # add offshore regions traces
+        fig.add_trace(fig2.data[0])
+        # add country border traces
+        fig.add_trace(fig3.data[0])
 
     fig.update_layout(
         showlegend=False,
@@ -127,10 +142,10 @@ def get_choropleth(
             "font_family": FONT,
             "font_color": FONT_COLOR,
         },
-        # set position of color bar
-        coloraxis_colorbar_x=1,
-        # change background color of map
-        geo={"bgcolor": "rgba(0,0,0,0)"},  # rgba(0,0,0,0) for no color
+        # adapt color bar
+        coloraxis_colorbar={
+            "orientation": "v",
+        },
     )
 
     fig.update_geos(
@@ -141,7 +156,9 @@ def get_choropleth(
         showcoastlines=True,
         coastlinecolor="lightgrey",
         showocean=True,
-        oceancolor="LightBlue",
+        oceancolor="White",
+        # change background color of map
+        bgcolor="#f5f7f7",
     )
 
     return fig
