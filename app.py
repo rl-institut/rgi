@@ -50,8 +50,9 @@ def change_unit(
     if requirement == "area":
         return (
             [
+                {"label": "km²", "value": "area_km²"},
                 {"label": "Percentage", "value": "rel"},
-                {"label": "Olympic Soccer Fields", "value": "oly_field"},
+                {"label": "Olympic Soccer Fields (105 x 68 m²)", "value": "oly_field"},
             ],
             "rel",
             [{"label": option, "value": option} for option in criteria],
@@ -60,7 +61,7 @@ def change_unit(
     return (
         [
             {"label": "Mio. m³", "value": "water_miom3"},
-            {"label": "Olympic Swimming Pools", "value": "oly_pool"},
+            {"label": "Olympic Swimming Pools (50 x 25 x 2 m³)", "value": "oly_pool"},
         ],
         "water_miom3",
         [{"label": option, "value": option} for option in criteria],

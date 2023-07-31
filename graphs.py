@@ -12,11 +12,11 @@ FONT_COLOR = "#1f2120"
 
 # pretty labels for pretty plotting
 pretty_labels = {
-    "area_km2": "Area [km2]",
-    "oly_field": "Area [Olympic soccer fields]",
+    "area_km2": "Area [km²]",
+    "oly_field": "Area [Soccer fields]",
     "rel": "Area [%]",
     "water_miom3": "Water [Mio. m³]",
-    "oly_pool": "Water [Olympic swimming pools]",
+    "oly_pool": "Water [Swimming pools]",
     "type": "Technology type",
     "target_year": "Year",
     "sce_name": "Scenario",
@@ -126,7 +126,8 @@ def get_choropleth(
 
     if len(criteria) > 0:
         # add offshore regions traces
-        fig.add_trace(fig2.data[0])
+        if requirement == "area":
+            fig.add_trace(fig2.data[0])
         # add country border traces
         fig.add_trace(fig3.data[0])
 
@@ -153,10 +154,8 @@ def get_choropleth(
         fitbounds="locations",
         visible=False,
         resolution=50,
-        showcoastlines=True,
-        coastlinecolor="lightgrey",
-        showocean=True,
-        oceancolor="White",
+        showland=True,
+        landcolor="lightgrey",
         # change background color of map
         bgcolor="#f5f7f7",
     )
@@ -204,7 +203,7 @@ def get_bar_chart(  # noqa: PLR0913
             "Oil": "#f9dbbd",
             "Gas": "#9B2226",
             "Lignite": "#adadad",
-            "Coal": "#4c4c4c",
+            "Hard coal": "#4c4c4c",
             "Electrolyser": "#7d5ba6",
         }
 

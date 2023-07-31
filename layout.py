@@ -86,8 +86,9 @@ unit = html.Div(
         dbc.RadioItems(
             id="unit",
             options=[
+                {"label": "km²", "value": "area_km2"},
                 {"label": "Percentage", "value": "rel"},
-                {"label": "Olympic Soccer Fields", "value": "oly_field"},
+                {"label": "Olympic Soccer Fields (105 x 68 m²)", "value": "oly_field"},
             ],
             value="rel",
         ),

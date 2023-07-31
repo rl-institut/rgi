@@ -30,7 +30,7 @@ tech_dict_water = {
     "OCGT": "Gas",
     "hydro": "Hydro",
     "ror": "Hydro",
-    "coal": "Coal",
+    "coal": "Hard coal",
     "lignite": "Lignite",
     "nuclear": "Nuclear",
     "oil": "Oil",
