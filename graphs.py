@@ -216,7 +216,7 @@ def get_bar_chart(  # noqa: PLR0913
             "Gas": "#9B2226",
             "Lignite": "#adadad",
             "Hard coal": "#4c4c4c",
-            "Electrolyser": "#7d5ba6",
+            "H2 production": "#7d5ba6",
         }
 
     fig = px.bar(
