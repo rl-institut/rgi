@@ -2,6 +2,7 @@
 import json
 
 import pandas as pd
+import numpy as np
 
 import data
 import settings
@@ -37,6 +38,16 @@ tech_dict_water = {
     "biomass": "Biomass",
 }
 
+round_dict_area = {
+    "area_km2": 2,
+    "oly_field": 1,
+    "rel": 2,
+}
+round_dict_water = {
+    "water_mio3": 1,
+    "oly_pool": 1,
+}
+
 
 def prepare_data(
     scenario: str,
@@ -60,6 +71,22 @@ def prepare_data(
     df = df[df.target_year == year]
     df = df[df["type"].isin(criteria)]
     df = df.rename(columns={"bus": "name"})
+    # round values
+    df = (
+        df.round(round_dict_area)
+        if requirement == "area"
+        else df.round(round_dict_water)
+    )
+    # replace values where less than one soccer field or olymic pool with nan
+    if requirement == "area":
+        df.loc[df.oly_field < 1, ["area_km2", "oly_field", "rel"]] = np.full(
+            (len(df[df.oly_field < 1]), 3), np.nan
+        )
+    else:
+        df.loc[df.oly_pool < 1, ["water_mio3", "oly_pool"]] = np.full(
+            (len(df[df.oly_pool < 1]), 3), np.nan
+        )
+
     return df
 
 
@@ -166,7 +193,7 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
             df = df.replace(
                 tech_dict_area,
             )
-            data_dict[scenario] = df[df["type"].isin(criteria)]
+            data_dict[scenario] = df[df["type"].isin(criteria)][df.onshore]
 
         data_df = pd.concat(data_dict)
         data_df = (
@@ -182,7 +209,7 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
             df = df.replace(
                 tech_dict_water,
             )
-            data_dict[scenario] = df[df["type"].isin(criteria)]
+            data_dict[scenario] = df[df["type"].isin(criteria)][df.onshore]
         data_df = pd.concat(data_dict)
         data_df = (
             data_df.groupby(["bus", "target_year", "sce_name"])

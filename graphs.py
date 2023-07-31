@@ -54,8 +54,18 @@ def get_choropleth(
         criteria=criteria,
     )
 
+    df_offshore_all = df[~df.onshore][["name", "type", "target_year", unit]]
+
+    df_offshore = pd.pivot_table(
+        df_offshore_all,
+        values=unit,
+        index=["name", "target_year"],
+        columns=["type"],
+        aggfunc=np.sum,
+    ).reset_index()
+
     df = (
-        df[["name", "target_year", unit]]
+        df[df.onshore][["name", "target_year", unit]]
         .groupby(["name", "target_year"])
         .sum()
         .reset_index()
@@ -63,7 +73,8 @@ def get_choropleth(
 
     # add pretty name for hovering box
     df["pretty_name"] = df.name.str[:5]
-    df["offshore_color"] = np.repeat("offshore", len(df))
+    df_offshore["pretty_name"] = df_offshore.name.str[:5]
+    df_offshore["offshore_color"] = np.repeat("offshore", len(df_offshore))
 
     geojson = data.get_regions()
     geojson_offshore = data.get_regions_offshore()
@@ -90,9 +101,17 @@ def get_choropleth(
         range_color=(min_max[0][unit], min_max[1][unit]),
     )
 
+    hover_dict = {"name": False, "offshore_color": False}
+
+    if "Offshore wind" in criteria:
+        hover_dict["Offshore wind"] = True
+
+    if "Nature-protected area" in criteria:
+        hover_dict["Nature-protected area"] = True
+
     # for offshore regions
     fig2 = px.choropleth(
-        df,
+        df_offshore,
         geojson=geojson_offshore,
         locations="name",
         color="offshore_color",
@@ -100,8 +119,8 @@ def get_choropleth(
             "offshore": "white",
         },  # #8AC7DB as alternative blue offshore color
         featureidkey="properties.name",
-        hover_name=df.pretty_name + " Offshore",
-        hover_data={"name": False, unit: True, "offshore_color": False},
+        hover_name=df_offshore.pretty_name + " Offshore",
+        hover_data=hover_dict,
         labels=pretty_labels,
     )
 
@@ -119,7 +138,7 @@ def get_choropleth(
 
     if len(criteria) > 0:
         # add offshore regions traces
-        if requirement == "area":
+        if (requirement == "area") & (~df_offshore.empty):
             fig.add_trace(fig2.data[0])
         # add country border traces
         fig.add_trace(fig3.data[0])
@@ -174,7 +193,7 @@ def get_bar_chart(  # noqa: PLR0913
         )
         for scenario in scenarios
     )
-    df = df[df["name"] == region]
+    df = df[(df["name"] == region) & (df.onshore)]
 
     # add color palette for bar chart
     if requirement == "area":
