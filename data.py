@@ -80,11 +80,13 @@ def prepare_data(
     # replace values where less than one soccer field or olymic pool with nan
     if requirement == "area":
         df.loc[df.oly_field < 1, ["area_km2", "oly_field", "rel"]] = np.full(
-            (len(df[df.oly_field < 1]), 3), np.nan
+            (len(df[df.oly_field < 1]), 3),
+            np.nan,
         )
     else:
         df.loc[df.oly_pool < 1, ["water_mio3", "oly_pool"]] = np.full(
-            (len(df[df.oly_pool < 1]), 3), np.nan
+            (len(df[df.oly_pool < 1]), 3),
+            np.nan,
         )
 
     return df
