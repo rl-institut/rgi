@@ -53,20 +53,13 @@ def get_choropleth(
         year=year,
         criteria=criteria,
     )
-    if unit == "rel":
-        df = (
-            df[["name", "target_year", unit]]
-            .groupby(["name", "target_year"])
-            .mean()
-            .reset_index()
-        )
-    else:
-        df = (
-            df[["name", "target_year", unit]]
-            .groupby(["name", "target_year"])
-            .sum()
-            .reset_index()
-        )
+
+    df = (
+        df[["name", "target_year", unit]]
+        .groupby(["name", "target_year"])
+        .sum()
+        .reset_index()
+    )
 
     # add pretty name for hovering box
     df["pretty_name"] = df.name.str[:5]

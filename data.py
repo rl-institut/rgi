@@ -171,10 +171,10 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
         data_df = pd.concat(data_dict)
         data_df = (
             data_df.groupby(["bus", "target_year", "sce_name"])
-            .aggregate({"area_km2": "sum", "oly_field": "sum", "rel": "mean"})[
+            # differentiation possible for aggregation in case e.g. percentage needs to be averaged instead of summed
+            .aggregate({"area_km2": "sum", "oly_field": "sum", "rel": "sum"})[
                 ["area_km2", "oly_field", "rel"]
-            ]
-            .reset_index(drop=True)
+            ].reset_index(drop=True)
         )
     elif req == "water":
         for scenario in SCENARIOS:
