@@ -98,11 +98,13 @@ criteria_options = data.get_criteria("area")
 criteria = html.Div(
     [
         html.Label("Criteria for requirements:"),
-        dcc.Dropdown(
+        dcc.Checklist(
             id="criteria",
             options=criteria_options,
             value=criteria_options,
-            multi=True,
+            #multi=True,
+            labelStyle={'display': 'block'},
+            inputStyle={"margin-right": "5px"},
         ),
     ],
     style={"margin-top": "10px"},

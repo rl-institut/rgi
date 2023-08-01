@@ -231,8 +231,11 @@ def get_bar_chart(  # noqa: PLR0913
         hover_data={"name": False, "type": False, unit: True},
         labels=pretty_labels,
     )
+
     # change annotation above graph to only show scenario name; optional: give text="" for no annotation
     fig.for_each_annotation(lambda a: a.update(text=f"{a.text[9:].upper()}: {region}"))
+    # set fixed bar width
+    fig.update_traces(width=0.08)
 
     fig.update_layout(
         font_family=FONT,
@@ -260,6 +263,9 @@ def get_bar_chart(  # noqa: PLR0913
         gridcolor="lightgrey",
     )
 
-    fig.update_xaxes(linecolor="lightgrey")
+    fig.update_xaxes(
+        tickvals=[year],
+        linecolor="lightgrey"
+    )
 
     return fig
