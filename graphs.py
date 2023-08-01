@@ -17,7 +17,7 @@ pretty_labels = {
     "rel": "Area [%]",
     "water_miom3": "Water [Mio. m³]",
     "oly_pool": "Water [Swimming pools]",
-    "type": "Technology type",
+    "type": "Criteria for requirements",
     "target_year": "Year",
     "sce_name": "Scenario",
     "electrolyser": "Electrolyser",
