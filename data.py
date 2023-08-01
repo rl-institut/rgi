@@ -10,7 +10,7 @@ COUNTRY_SHAPES = "regions_onshore_elec_s_30.geojson"
 ONSHORE_GEOJSON_FILENAME = "regions_onshore_elec_s_50.geojson"
 OFFSHORE_GEOJSON_FILENAME = "regions_offshore_elec_s_50.geojson"
 
-SCENARIOS = ["clever", "tyndp_de"]
+SCENARIOS = ["clever", "tyndp_de", "tyndp_ga", "pac2_0"]
 
 tech_dict_area = {
     "H2 Electrolysis": "Electrolyser",
