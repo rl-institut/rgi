@@ -50,7 +50,7 @@ def change_unit(
     if requirement == "area":
         return (
             [
-                {"label": "km²", "value": "area_km²"},
+                {"label": "km²", "value": "area_km2"},
                 {"label": "Percentage", "value": "rel"},
                 {"label": "Olympic Soccer Fields (105 x 68 m²)", "value": "oly_field"},
             ],
