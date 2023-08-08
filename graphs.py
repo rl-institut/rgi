@@ -210,6 +210,7 @@ def get_bar_chart(  # noqa: PLR0913
         }
     else:
         bar_palette = {
+            "Biomass": "#a57f60",
             "Hydro": "#d0edf4",
             "Nuclear": "#5091a0",
             "Oil": "#f9dbbd",
