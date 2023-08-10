@@ -43,7 +43,7 @@ scenario = dbc.Tabs(
                         dcc.Dropdown(
                             id="scenario_2",
                             options=scenario_options,
-                            value=scenario_options[0],
+                            value=scenario_options[1],
                             clearable=False,
                         ),
                     ],

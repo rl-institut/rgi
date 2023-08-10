@@ -24,6 +24,8 @@ pretty_labels = {
     "hydrogen storage": "H2 Storage",
     "clever": "CLEVER",
     "tyndp_de": "TYNDP_DE",
+    "tyndp_ga": "TYNDP_GA",
+    "pac2_0": "PAC2_0",
 }
 
 
