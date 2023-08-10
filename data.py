@@ -221,5 +221,4 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
 
     min_vals = data_df.min()
     max_vals = data_df.max()
-
     return min_vals, max_vals

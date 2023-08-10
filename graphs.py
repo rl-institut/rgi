@@ -64,7 +64,7 @@ def get_choropleth(
         index=["name", "target_year"],
         columns=["type"],
         aggfunc=np.sum,
-    ).reset_index()
+    ).reset_index().fillna(0)
 
     df = (
         df[df.onshore][["name", "target_year", unit]]

@@ -149,16 +149,6 @@ def sync_input(sce1, sce2):
             sce1 = [x for x in data.get_scenarios() if x != sce2][0]
     return sce1, sce2
 
-# @app.callback(
-#     Output(component_id="scenario_2", component_property="options"),
-#     Input(component_id="scenario_1", component_property="value"),
-#     prevent_initial_call=True,
-# )
-# def update_options(chosen_scenario):
-#     if chosen_scenario is None:
-#         return data.get_scenarios()
-#     else:
-#         return data.get_scenarios().remove(chosen_scenario)
 
 @app.callback(
     [
