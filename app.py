@@ -43,7 +43,7 @@ cache = Cache(
     prevent_initial_call=True,
 )
 def change_unit(
-    requirement: str,
+        requirement: str,
 ) -> tuple[list[dict[str, str]], str, list[dict[str, str]], list[str]]:
     """Change unit related to selected requirement."""
     criteria = data.get_criteria(requirement)
@@ -88,14 +88,14 @@ def change_unit(
     ],
 )
 def choropleth(  # noqa: PLR0913
-    scenarios: str,
-    scenario: str,
-    scenario_1: str,
-    scenario_2: str,
-    year: int,
-    requirement: str,
-    unit: str,
-    criteria: list[str],
+        scenarios: str,
+        scenario: str,
+        scenario_1: str,
+        scenario_2: str,
+        year: int,
+        requirement: str,
+        unit: str,
+        criteria: list[str],
 ) -> tuple[go.Figure, go.Figure, str, str]:
     """Return choropleth for given user settings."""
     if scenarios == "scenario_single":
@@ -106,7 +106,7 @@ def choropleth(  # noqa: PLR0913
                 year=year,
                 unit=unit,
                 criteria=criteria,
-                min_max=get_min_max(requirement, criteria),
+                min_max=get_min_max(requirement, criteria, scenarios, year, scenario),
             ),
             graphs.blank_fig(),
             "col-11",
@@ -119,7 +119,8 @@ def choropleth(  # noqa: PLR0913
             year=year,
             unit=unit,
             criteria=criteria,
-            min_max=get_min_max(requirement, criteria),
+            min_max=get_min_max(requirement, criteria, scenarios, year,
+                                scenario_1=scenario_1, scenario_2=scenario_2),
         ),
         graphs.get_choropleth(
             scenario=scenario_2,
@@ -127,7 +128,8 @@ def choropleth(  # noqa: PLR0913
             year=year,
             unit=unit,
             criteria=criteria,
-            min_max=get_min_max(requirement, criteria),
+            min_max=get_min_max(requirement, criteria, scenarios, year,
+                                scenario_1=scenario_1, scenario_2=scenario_2),
         ),
         "col-6",
         "col-6",
@@ -150,6 +152,22 @@ def sync_input(sce1, sce2):
     return sce1, sce2
 
 
+# @app.callback(
+#     [
+#         Output(component_id="region", component_property="figure"),
+#     ],
+#     Input(component_id="scenario_1", component_property="value"),
+#     Input(component_id="scenario_2", component_property="value"),
+# )
+# def sync_input(sce1, sce2):
+#     input_id = ctx.triggered[0]["prop_id"].split(".")[0]
+#     if sce1 == sce2:
+#         if input_id == "scenario_1":
+#             sce2 = [x for x in data.get_scenarios() if x != sce1][0]
+#         else:
+#             sce1 = [x for x in data.get_scenarios() if x != sce2][0]
+#     return sce1, sce2
+
 @app.callback(
     [
         Output(component_id="region", component_property="figure"),
@@ -168,28 +186,28 @@ def sync_input(sce1, sce2):
     ],
 )
 def bar_chart(  # noqa: PLR0913
-    choropleth_feature_1: dict,
-    choropleth_feature_2: dict,
-    scenarios: str,
-    scenario: str,
-    scenario_1: str,
-    scenario_2: str,
-    year: int,
-    requirement: str,
-    unit: str,
-    criteria: list[str],
+        choropleth_feature_1: dict,
+        choropleth_feature_2: dict,
+        scenarios: str,
+        scenario: str,
+        scenario_1: str,
+        scenario_2: str,
+        year: int,
+        requirement: str,
+        unit: str,
+        criteria: list[str],
 ) -> tuple[go.Figure]:
     """Return bar chart for selected region."""
     choropleth_triggered = ctx.triggered_id
     if choropleth_triggered is None or choropleth_triggered in (
-        "scenarios",
-        "scenario",
-        "scenario_1",
-        "scenario_2",
-        "year",
-        "requirement",
-        "unit",
-        "criteria",
+            "scenarios",
+            "scenario",
+            "scenario_1",
+            "scenario_2",
+            "year",
+            "requirement",
+            "unit",
+            "criteria",
     ):
         return (graphs.blank_fig(),)
     if choropleth_triggered == "choropleth_1":
@@ -214,9 +232,23 @@ def bar_chart(  # noqa: PLR0913
 
 
 # @cache.memoize(timeout=0)
-def get_min_max(req: str, criteria: [str]) -> tuple:
+def get_min_max(req: str, criteria: [str], scenarios: str, year: int, scenario=None,
+                scenario_1=None, scenario_2=None,
+                ) -> tuple:
     """Get min and max values for each unit in tuple of pd.DataFrames."""
-    return data.get_min_max(req, criteria)
+    min_df, max_df = data.get_min_max(req, criteria)
+    if scenarios == "scenario_single":
+        min_val = min_df.loc[(min_df.sce_name == scenario) & (min_df.target_year == year)]
+        max_val = max_df.loc[(max_df.sce_name == scenario) & (max_df.target_year == year)]
+    else:
+        min_val = min_df.loc[((min_df.sce_name == scenario_1) |
+                              (min_df.sce_name == scenario_2))
+                             & (min_df.target_year == year)]
+        max_val = max_df.loc[((max_df.sce_name == scenario_1) |
+                              (max_df.sce_name == scenario_2))
+                             & (max_df.target_year == year)]
+
+    return min_val.drop(columns=["sce_name", "target_year"]).min(), max_val.drop(columns=["sce_name", "target_year"]).max()
 
 
 if __name__ == "__main__":

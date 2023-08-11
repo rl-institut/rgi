@@ -196,7 +196,7 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
             # differentiation possible for aggregation in case e.g. percentage needs to be averaged instead of summed
             .aggregate({"area_km2": "sum", "oly_field": "sum", "rel": "sum"})[
                 ["area_km2", "oly_field", "rel"]
-            ].reset_index(drop=True)
+            ].reset_index()[["sce_name", "target_year", "area_km2", "oly_field", "rel"]]
         )
     elif req == "water":
         for scenario in SCENARIOS:
@@ -209,7 +209,7 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
         data_df = (
             data_df.groupby(["bus", "target_year", "sce_name"])
             .sum()[["water_miom3", "oly_pool"]]
-            .reset_index(drop=True)
+            .reset_index()[["sce_name", "target_year", "water_miom3", "oly_pool"]]
         )
     else:
         msg = "Invalid requirement. Call for either 'area' or 'water'."
@@ -219,6 +219,6 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
 
         raise ExceptionReqError(msg)
 
-    min_vals = data_df.min()
-    max_vals = data_df.max()
+    min_vals = data_df.groupby(by=["sce_name", "target_year"]).min().reset_index()
+    max_vals = data_df.groupby(by=["sce_name", "target_year"]).max().reset_index()
     return min_vals, max_vals
