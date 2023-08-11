@@ -149,15 +149,16 @@ DEFAULT_LAYOUT = dbc.Container(
                 dbc.Col(
                     atlas,
                     className="col-8",
-                    style={
-                        "border": "2px black solid",
+                    style={"margin-top": "10px"},
+                ),
+                dbc.Col(controls, className="col-3", style={
+                        "border": "1.5px black solid",
                         "background-color": "rgba(0,0,0,0)",
-                        "margin-left": "10px",
+                        "margin-left": "20px",
                         "margin-right": "50px",
                         "margin-top": "10px",
-                    },
-                ),
-                dbc.Col(controls, className="col-3", style={"margin-top": "10px"}),
+                        "margin-bottom": "50px",
+                        },),
             ],
         ),
         # row with bar chart

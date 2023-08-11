@@ -107,7 +107,7 @@ def choropleth(  # noqa: PLR0913
                 unit=unit,
                 criteria=criteria,
                 min_max=get_min_max(requirement, criteria, scenarios, year, scenario),
-                width=1000, height=700, scenarios=scenarios
+                width=1100, height=800, scenarios=scenarios, coloraxes=True
             ),
             graphs.blank_fig(),
             "col-11",
@@ -122,7 +122,7 @@ def choropleth(  # noqa: PLR0913
             criteria=criteria,
             min_max=get_min_max(requirement, criteria, scenarios, year,
                                 scenario_1=scenario_1, scenario_2=scenario_2),
-            width=600, height=500, scenarios=scenarios
+            width=600, height=600, scenarios=scenarios, coloraxes=False
         ),
         graphs.get_choropleth(
             scenario=scenario_2,
@@ -132,9 +132,9 @@ def choropleth(  # noqa: PLR0913
             criteria=criteria,
             min_max=get_min_max(requirement, criteria, scenarios, year,
                                 scenario_1=scenario_1, scenario_2=scenario_2),
-            width=600, height=500, scenarios=scenarios
+            width=700, height=600, scenarios=scenarios, coloraxes=True
         ),
-        "col-6",
+        "col-5",
         "col-6",
     )
 
@@ -154,22 +154,6 @@ def sync_input(sce1, sce2):
             sce1 = [x for x in data.get_scenarios() if x != sce2][0]
     return sce1, sce2
 
-
-# @app.callback(
-#     [
-#         Output(component_id="region", component_property="figure"),
-#     ],
-#     Input(component_id="scenario_1", component_property="value"),
-#     Input(component_id="scenario_2", component_property="value"),
-# )
-# def sync_input(sce1, sce2):
-#     input_id = ctx.triggered[0]["prop_id"].split(".")[0]
-#     if sce1 == sce2:
-#         if input_id == "scenario_1":
-#             sce2 = [x for x in data.get_scenarios() if x != sce1][0]
-#         else:
-#             sce1 = [x for x in data.get_scenarios() if x != sce2][0]
-#     return sce1, sce2
 
 @app.callback(
     [

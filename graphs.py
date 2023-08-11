@@ -48,6 +48,7 @@ def get_choropleth(
         width: int,
         height: int,
         scenarios: str,
+        coloraxes: bool
 ) -> px.choropleth:
     """Return choropleth for given user settings."""
     title = f"{pretty_labels[scenario]} spatial {requirement} requirement for {year}"
@@ -170,6 +171,8 @@ def get_choropleth(
 
     if scenarios == "scenario_single":
         fig.update_coloraxes(colorbar_x=0.89)
+    elif not coloraxes:
+        fig.update(layout_coloraxis_showscale=False)
 
     fig.update_geos(
         scope="europe",
