@@ -39,12 +39,14 @@ def blank_fig() -> go.Figure:
 
 
 def get_choropleth(
-    scenario: str,
-    requirement: str,
-    year: int,
-    unit: str,
-    criteria: list[str],
-    min_max: tuple[pd.DataFrame, pd.DataFrame],
+        scenario: str,
+        requirement: str,
+        year: int,
+        unit: str,
+        criteria: list[str],
+        min_max: tuple[pd.DataFrame, pd.DataFrame],
+        width: int,
+        height: int,
 ) -> px.choropleth:
     """Return choropleth for given user settings."""
     title = f"{pretty_labels[scenario]} spatial {requirement} requirement for {year}"
@@ -101,6 +103,7 @@ def get_choropleth(
         hover_data={"name": False, unit: True},
         labels=pretty_labels,
         range_color=(min_max[0][unit], min_max[1][unit]),
+        width=width, height=height
     )
 
     hover_dict = {"name": False, "offshore_color": False}
@@ -124,6 +127,7 @@ def get_choropleth(
         hover_name=df_offshore.pretty_name + " Offshore",
         hover_data=hover_dict,
         labels=pretty_labels,
+        width=width, height=height
     )
 
     # for country borders
