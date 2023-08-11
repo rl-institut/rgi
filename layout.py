@@ -53,6 +53,19 @@ scenario = dbc.Tabs(
     ],
     style={"margin-bottom": "10px"},
 )
+
+scenario_description = data.get_scenario_text()
+scenario_text = html.Div([
+    dcc.Textarea(
+        id='textarea-scenario',
+        value=scenario_description[scenario_options[0]],
+        style={'width': '100%', 'height': 100, "resize": "none"},
+        disabled=True,
+        cols=1,
+        rows=3
+    ),
+])
+
 year_options = data.get_years()
 year = html.Div(
     [
@@ -161,6 +174,13 @@ DEFAULT_LAYOUT = dbc.Container(
                         },),
             ],
         ),
+        dbc.Row(dbc.Col(scenario_text, className="col-7", style={
+                        "margin-left": "20px",
+                        "margin-right": "50px",
+                        "margin-top": "10px",
+                        "margin-bottom": "50px",
+                        })
+                ),
         # row with bar chart
         dbc.Row(dbc.Col(region, className="col-9"), style={"margin-right": "150px"}),
     ],

@@ -138,6 +138,21 @@ def choropleth(  # noqa: PLR0913
         "col-6",
     )
 
+@callback(
+        [Output('textarea-scenario', 'value'), Output('textarea-scenario', 'style')],
+        [Input(component_id="scenarios", component_property="active_tab"),
+         Input(component_id="scenario", component_property="value"),
+         Input(component_id="scenario_1", component_property="value"),
+         Input(component_id="scenario_2", component_property="value")]
+)
+def update_output(scenarios: str, scenario: str, scenario_1: str,
+                  scenario_2: str,):
+    if scenarios == "scenario_single":
+        return data.get_scenario_text()[scenario], {'width': '100%', 'height': 100, "resize": "none"}
+    else:
+        return data.get_scenario_text()[scenario_1] + "\n\n" + \
+               data.get_scenario_text()[scenario_2], {'width': '100%', 'height': 200, "resize": "none"}
+
 
 @callback(
     Output(component_id="scenario_1", component_property="value"),

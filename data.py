@@ -47,6 +47,13 @@ round_dict_water = {
     "water_mio3": 1,
     "oly_pool": 1,
 }
+# ToDo: adjust scenario description
+scenario_description = {
+    "clever": "CLEVER:\nScenario description clever.",
+    "pac2_0": "PAC2_0:\nScenario description pac2_0.",
+    "tyndp_de": "TYNDP_DE:\nScenario description tyndp_de.",
+    "tyndp_ga": "TYNDP_GA:\nScenario description tyndp_ga.",
+}
 
 
 def prepare_data(
@@ -100,6 +107,11 @@ def get_water_requirements(scenario: str) -> pd.DataFrame:
 def get_scenarios() -> list[str]:
     """Return scenarios from dataset."""
     return SCENARIOS
+
+
+def get_scenario_text() -> dict:
+    """Return scenario description from dataset."""
+    return scenario_description
 
 
 def get_years() -> list[int]:
