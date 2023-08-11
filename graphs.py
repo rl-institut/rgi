@@ -47,6 +47,7 @@ def get_choropleth(
         min_max: tuple[pd.DataFrame, pd.DataFrame],
         width: int,
         height: int,
+        scenarios: str,
 ) -> px.choropleth:
     """Return choropleth for given user settings."""
     title = f"{pretty_labels[scenario]} spatial {requirement} requirement for {year}"
@@ -166,6 +167,9 @@ def get_choropleth(
             "orientation": "v",
         },
     )
+
+    if scenarios == "scenario_single":
+        fig.update_coloraxes(colorbar_x=0.89)
 
     fig.update_geos(
         scope="europe",
