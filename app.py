@@ -206,16 +206,17 @@ def bar_chart(  # noqa: PLR0913
             "scenario",
             "scenario_1",
             "scenario_2",
-            "year",
             "requirement",
             "unit",
             "criteria",
     ):
         return (graphs.blank_fig(),)
-    if choropleth_triggered == "choropleth_1":
+    if (choropleth_triggered == "choropleth_1") or ((choropleth_triggered == "year") & (choropleth_feature_1 is not None)):
         region = choropleth_feature_1["points"][0]["location"]
-    else:
+    elif (choropleth_triggered == "choropleth_2") or ((choropleth_triggered == "year") & (choropleth_feature_2 is not None)):
         region = choropleth_feature_2["points"][0]["location"]
+    else:
+        return (graphs.blank_fig(),)
 
     region_scenarios = (
         [scenario] if scenarios == "scenario_single" else [scenario_1, scenario_2]
