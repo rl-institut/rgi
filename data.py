@@ -104,6 +104,17 @@ def get_water_requirements(scenario: str) -> pd.DataFrame:
     return pd.read_csv(settings.DATA_DIR / filename)
 
 
+def get_pretty_names() -> pd.DataFrame:
+    """Return pretty country names data."""
+    filename = "pretty_names.csv"
+    df = pd.read_csv(settings.DATA_DIR / filename)
+    df["pretty_name"] = [", ".join([df.country_name[i], df.Island[i], df.Region[i]])
+                         if df.island[i]
+                         else ", ".join([df.country_name[i], df.Region[i]])
+                         for i in df.index]
+    return dict(zip(df.name, df.pretty_name))
+
+
 def get_scenarios() -> list[str]:
     """Return scenarios from dataset."""
     return SCENARIOS

@@ -78,8 +78,8 @@ def get_choropleth(
     )
 
     # add pretty name for hovering box
-    df["pretty_name"] = df.name.str[:5]
-    df_offshore["pretty_name"] = df_offshore.name.str[:5]
+    df["pretty_name"] = df["name"].replace(data.get_pretty_names())
+    df_offshore["pretty_name"] = df_offshore["name"].replace(data.get_pretty_names())
     df_offshore["offshore_color"] = np.repeat("offshore", len(df_offshore))
 
     geojson = data.get_regions()
