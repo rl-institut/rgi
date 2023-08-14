@@ -165,8 +165,6 @@ DEFAULT_LAYOUT = dbc.Container(
                     style={"margin-top": "10px"},
                 ),
                 dbc.Col(controls, className="col-3", style={
-                        "border": "1.5px black solid",
-                        "background-color": "rgba(0,0,0,0)",
                         "margin-left": "20px",
                         "margin-right": "50px",
                         "margin-top": "10px",
