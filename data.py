@@ -150,8 +150,13 @@ def get_criteria(requirement: str) -> list[str]:
         if requirement == "area"
         else dataset.replace(tech_dict_water)
     )
-
-    return dataset["type"].unique().tolist()
+    if requirement == "water":
+        criteria = dataset["type"].sort_values().unique().tolist()
+    else:
+        criteria = dataset["type"].sort_values().unique().tolist()
+        criteria.remove('Nature-protected area')
+        criteria.insert(len(criteria)-1, 'Nature-protected area')
+    return criteria
 
 
 def get_regions() -> dict:

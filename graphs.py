@@ -26,7 +26,6 @@ pretty_labels = {
     "tyndp_de": "TYNDP_DE",
     "tyndp_ga": "TYNDP_GA",
     "pac2_0": "PAC2.0",
-    "Offshore wind": "Offshore wind area"
 }
 
 
