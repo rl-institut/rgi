@@ -248,6 +248,7 @@ def get_bar_chart(  # noqa: PLR0913
 
     # change annotation above graph to only show scenario name; optional: give text="" for no annotation
     fig.for_each_annotation(lambda a: a.update(text=f"{a.text[9:].upper()}: {data.get_pretty_names()[region]}"))
+    fig.update_annotations(font_size=18)
     # set fixed bar width
     fig.update_traces(width=0.08)
 
