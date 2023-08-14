@@ -25,7 +25,7 @@ pretty_labels = {
     "clever": "CLEVER",
     "tyndp_de": "TYNDP_DE",
     "tyndp_ga": "TYNDP_GA",
-    "pac2_0": "PAC2_0",
+    "pac2_0": "PAC2.0",
 }
 
 

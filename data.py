@@ -50,9 +50,9 @@ round_dict_water = {
 # ToDo: adjust scenario description
 scenario_description = {
     "clever": "CLEVER:\nScenario description clever.",
-    "pac2_0": "PAC2_0:\nScenario description pac2_0.",
-    "tyndp_de": "TYNDP_DE:\nScenario description tyndp_de.",
-    "tyndp_ga": "TYNDP_GA:\nScenario description tyndp_ga.",
+    "pac2_0": "PAC2.0:\nScenario description pac2_0.",
+    "tyndp_de": 'TYNDP "Distributed Energy" (DE):\nScenario description tyndp_de.',
+    "tyndp_ga": 'TYNDP "Global Ambition" (GA):\nScenario description tyndp_ga.',
 }
 
 
