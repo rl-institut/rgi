@@ -79,7 +79,7 @@ def get_choropleth(
 
     # add pretty name for hovering box
     df["pretty_name"] = df["name"].replace(data.get_pretty_names())
-    df_offshore["pretty_name"] = df_offshore["name"].replace(data.get_pretty_names())
+    df_offshore["pretty_name"] = df_offshore["name"].replace(data.get_pretty_names(True))
     df_offshore["offshore_color"] = np.repeat("offshore", len(df_offshore))
 
     geojson = data.get_regions()
@@ -126,7 +126,7 @@ def get_choropleth(
             "offshore": "white",
         },  # #8AC7DB as alternative blue offshore color
         featureidkey="properties.name",
-        hover_name=df_offshore.pretty_name + " Offshore:<br> <i>click for more details</i>",
+        hover_name=df_offshore.pretty_name + ":<br> <i>click for more details</i>",
         hover_data=hover_dict,
         labels=pretty_labels,
         width=width, height=height
