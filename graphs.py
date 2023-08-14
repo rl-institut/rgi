@@ -26,6 +26,7 @@ pretty_labels = {
     "tyndp_de": "TYNDP_DE",
     "tyndp_ga": "TYNDP_GA",
     "pac2_0": "PAC2.0",
+    "Offshore wind": "Offshore wind area"
 }
 
 
@@ -111,10 +112,29 @@ def get_choropleth(
     hover_dict = {"name": False, "offshore_color": False}
 
     if "Offshore wind" in criteria:
-        hover_dict["Offshore wind"] = True
-
+        if unit == "rel":
+            hover_dict["Offshore wind area (in %)"] = True
+            df_offshore.rename(columns={"Offshore wind": "Offshore wind area (in %)"}, inplace=True)
+        elif unit == "area_km2":
+            hover_dict["Offshore wind area (in km²)"] = True
+            df_offshore.rename(columns={"Offshore wind": "Offshore wind area (in km²)"},
+                               inplace=True)
+        elif unit == "oly_field":
+            hover_dict["Offshore wind area (in Soccer Fields)"] = True
+            df_offshore.rename(columns={"Offshore wind": "Offshore wind area (in Soccer Fields)"},
+                               inplace=True)
     if "Nature-protected area" in criteria:
-        hover_dict["Nature-protected area"] = True
+        if unit == "rel":
+            hover_dict["Nature-protected area (in %)"] = True
+            df_offshore.rename(columns={"Nature-protected area": "Nature-protected area (in %)"}, inplace=True)
+        elif unit == "area_km2":
+            hover_dict["Nature-protected area (in km²)"] = True
+            df_offshore.rename(columns={"Nature-protected area": "Nature-protected area (in km²)"},
+                               inplace=True)
+        elif unit == "oly_field":
+            hover_dict["Nature-protected area (in Soccer Fields)"] = True
+            df_offshore.rename(columns={"Nature-protected area": "Nature-protected area (in Soccer Fields)"},
+                               inplace=True)
 
     # for offshore regions
     fig2 = px.choropleth(
