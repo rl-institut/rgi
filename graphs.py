@@ -12,11 +12,11 @@ FONT_COLOR = "#1f2120"
 
 # pretty labels for pretty plotting
 pretty_labels = {
-    "area_km2": "Area [km²]",
-    "oly_field": "Area [Soccer fields]",
-    "rel": "Area [%]",
-    "water_miom3": "Water [Mio. m³]",
-    "oly_pool": "Water [Swimming pools]",
+    "area_km2": "Area (in km²)",
+    "oly_field": "Area (in Soccer Fields)",
+    "rel": "Area (in %)",
+    "water_miom3": "Water (in Mio. m³)",
+    "oly_pool": "Water (in Swimming pools)",
     "type": "Criteria for requirements",
     "target_year": "Year",
     "sce_name": "Scenario",
