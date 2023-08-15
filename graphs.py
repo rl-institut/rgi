@@ -261,7 +261,7 @@ def get_bar_chart(  # noqa: PLR0913
         color="type",
         color_discrete_map=bar_palette,
         hover_name="type",
-        hover_data={"name": False, "type": False, unit: True},
+        hover_data={"name": False, "sce_name": False, "type": False, unit: True},
         labels=pretty_labels,
     )
 
