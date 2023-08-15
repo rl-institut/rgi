@@ -11,6 +11,10 @@ ONSHORE_GEOJSON_FILENAME = "regions_onshore_elec_s_50.geojson"
 OFFSHORE_GEOJSON_FILENAME = "regions_offshore_elec_s_50.geojson"
 
 SCENARIOS = ["clever", "tyndp_de", "tyndp_ga", "pac2_0"]
+sce_names = {"CLEVER": "clever", 'TYNDP "Distributed Energy" (DE)': "tyndp_de",
+                'TYNDP "Global Ambition" (GA)': "tyndp_ga",  "PAC2.0": "pac2_0"}
+sce_pretty_names = {"clever": "CLEVER", "tyndp_de": 'TYNDP "Distributed Energy" (DE)',
+                "tyndp_ga": 'TYNDP "Global Ambition" (GA)', "pac2_0": "PAC2.0"}
 
 tech_dict_area = {
     "H2 Electrolysis": "Electrolyser",
@@ -49,10 +53,10 @@ round_dict_water = {
 }
 # ToDo: adjust scenario description
 scenario_description = {
-    "clever": "CLEVER:\nScenario description clever.",
-    "pac2_0": "PAC2.0:\nScenario description pac2_0.",
-    "tyndp_de": 'TYNDP "Distributed Energy" (DE):\nScenario description tyndp_de.',
-    "tyndp_ga": 'TYNDP "Global Ambition" (GA):\nScenario description tyndp_ga.',
+    "CLEVER": "CLEVER:\nScenario description clever.",
+    "PAC2.0": "PAC2.0:\nScenario description pac2_0.",
+    'TYNDP "Distributed Energy" (DE)': 'TYNDP "Distributed Energy" (DE):\nScenario description tyndp_de.',
+    'TYNDP "Global Ambition" (GA)': 'TYNDP "Global Ambition" (GA):\nScenario description tyndp_ga.',
 }
 
 
@@ -64,9 +68,9 @@ def prepare_data(
 ) -> pd.Series:
     """Filter and aggregate data by given user settings."""
     df = (
-        data.get_area_requirements(scenario)
+        data.get_area_requirements(sce_names[scenario])
         if requirement == "area"
-        else data.get_water_requirements(scenario)
+        else data.get_water_requirements(sce_names[scenario])
     )
 
     df = (
@@ -124,6 +128,16 @@ def get_pretty_names(offshore=False) -> pd.DataFrame:
 def get_scenarios() -> list[str]:
     """Return scenarios from dataset."""
     return SCENARIOS
+
+
+def get_sce_names() -> dict:
+    """Return scenario dict from dataset."""
+    return sce_names
+
+
+def get_sce_pretty_names() -> dict:
+    """Return scenario dict from dataset."""
+    return sce_pretty_names
 
 
 def get_scenario_text() -> dict:

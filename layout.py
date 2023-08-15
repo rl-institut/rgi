@@ -5,6 +5,7 @@ from dash import dcc, html
 
 import data
 
+pretty_names = data.get_sce_pretty_names()
 scenario_options = data.get_scenarios()
 scenario = dbc.Tabs(
     id="scenarios",
@@ -16,8 +17,8 @@ scenario = dbc.Tabs(
                 html.Label("Scenario:"),
                 dcc.Dropdown(
                     id="scenario",
-                    options=scenario_options,
-                    value=scenario_options[0],
+                    options=[pretty_names[x] for x in scenario_options],
+                    value=[pretty_names[x] for x in scenario_options][0],
                     clearable=False,
                 ),
             ],
@@ -31,8 +32,8 @@ scenario = dbc.Tabs(
                         html.Label("Scenario 1:"),
                         dcc.Dropdown(
                             id="scenario_1",
-                            options=scenario_options,
-                            value=scenario_options[0],
+                            options=[pretty_names[x] for x in scenario_options],
+                            value=[pretty_names[x] for x in scenario_options][0],
                             clearable=False,
                         ),
                     ],
@@ -42,8 +43,8 @@ scenario = dbc.Tabs(
                         html.Label("Scenario 2:"),
                         dcc.Dropdown(
                             id="scenario_2",
-                            options=scenario_options,
-                            value=scenario_options[1],
+                            options=[pretty_names[x] for x in scenario_options],
+                            value=[pretty_names[x] for x in scenario_options][1],
                             clearable=False,
                         ),
                     ],
@@ -58,7 +59,7 @@ scenario_description = data.get_scenario_text()
 scenario_text = html.Div([
     dcc.Textarea(
         id='textarea-scenario',
-        value=scenario_description[scenario_options[0]],
+        value=scenario_description[[pretty_names[x] for x in scenario_options][0]],
         style={'width': '100%', 'height': 100, "resize": "none"},
         disabled=True,
         cols=1,
