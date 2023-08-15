@@ -240,16 +240,17 @@ def get_min_max(req: str, criteria: [str], scenarios: str, year: int, scenario=N
                 ) -> tuple:
     """Get min and max values for each unit in tuple of pd.DataFrames."""
     min_df, max_df = data.get_min_max(req, criteria)
+    sce_names = data.get_sce_names()
     if scenarios == "scenario_single":
-        min_val = min_df.loc[min_df.sce_name == scenario]
-        max_val = max_df.loc[max_df.sce_name == scenario]
+        min_val = min_df.loc[min_df.sce_name == sce_names[scenario]]
+        max_val = max_df.loc[max_df.sce_name == sce_names[scenario]]
     else:
-        min_val = min_df.loc[(min_df.sce_name == scenario_1) |
-                             (min_df.sce_name == scenario_2)]
-        max_val = max_df.loc[(max_df.sce_name == scenario_1) |
-                             (max_df.sce_name == scenario_2)]
-
-    return min_val.drop(columns=["sce_name", "target_year"]).min(), max_val.drop(columns=["sce_name", "target_year"]).max()
+        min_val = min_df.loc[(min_df.sce_name == sce_names[scenario_1]) |
+                             (min_df.sce_name == sce_names[scenario_2])]
+        max_val = max_df.loc[(max_df.sce_name == sce_names[scenario_1]) |
+                             (max_df.sce_name == sce_names[scenario_2])]
+    return min_val.drop(columns=["sce_name", "target_year"]).min(), \
+        max_val.drop(columns=["sce_name", "target_year"]).max()
 
 
 if __name__ == "__main__":
