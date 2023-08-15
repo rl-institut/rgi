@@ -240,6 +240,8 @@ def get_bar_chart(  # noqa: PLR0913
             "Nature-protected area": "#627732",
             "Urban & industrial area": "#adadad",
         }
+        df = df.groupby(["sce_name", "type", 'target_year', 'name']).agg(
+            {'area_km2': 'sum', 'oly_field': 'sum', 'rel': 'sum'}).reset_index()
     else:
         bar_palette = {
             "Biomass": "#a57f60",
@@ -251,6 +253,8 @@ def get_bar_chart(  # noqa: PLR0913
             "Hard coal": "#4c4c4c",
             "H2 production": "#7d5ba6",
         }
+        df = df.groupby(["sce_name", "type", 'target_year', 'name']).agg(
+            {'oly_pool': 'sum', 'water_miom3': 'sum'}).reset_index()
 
     fig = px.bar(
         df,
