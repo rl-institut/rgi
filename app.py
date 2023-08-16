@@ -147,11 +147,17 @@ def choropleth(  # noqa: PLR0913
 )
 def update_output(scenarios: str, scenario: str, scenario_1: str,
                   scenario_2: str,):
+    height_dict = {"CLEVER": 110, "PAC2.0": 110, 'TYNDP "Distributed Energy" (DE)': 130,
+                   'TYNDP "Global Ambition" (GA)': 130}
     if scenarios == "scenario_single":
-        return data.get_scenario_text()[scenario], {'width': '100%', 'height': 100, "resize": "none"}
+        return data.get_scenario_text()[scenario], {'width': '100%',
+                                                    'height': height_dict[scenario],
+                                                    "resize": "none"}
     else:
         return data.get_scenario_text()[scenario_1] + "\n\n" + \
-               data.get_scenario_text()[scenario_2], {'width': '100%', 'height': 200, "resize": "none"}
+               data.get_scenario_text()[scenario_2], \
+            {'width': '100%', 'height': height_dict[scenario_1] +
+                                        height_dict[scenario_2] + 10, "resize": "none"}
 
 
 @callback(
