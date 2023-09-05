@@ -56,14 +56,31 @@ scenario = dbc.Tabs(
 )
 
 scenario_description = data.get_scenario_text()
+
+
+def convert_to_markdown(text):
+    markdown = ''
+    lines = text.split('\n')
+
+    for line in lines:
+        if line.startswith('#'):
+            level = line.count('#')
+            markdown += f"{'#' * level} {line[level:].strip()}\n"
+        elif line.startswith('* '):
+            markdown += f"- {line[2:]}\n"
+        elif line.startswith('1. '):
+            markdown += f"1. {line[3:]}\n"
+        elif line.startswith('> '):
+            markdown += f"> {line[2:]}\n"
+        else:
+            markdown += line + '\n'
+
+    return markdown
+
 scenario_text = html.Div([
-    dcc.Textarea(
-        id='textarea-scenario',
-        value=scenario_description[[pretty_names[x] for x in scenario_options][0]],
-        style={'width': '100%', 'height': 100, "resize": "none"},
-        disabled=True,
-        cols=1,
-        rows=3
+    dcc.Markdown(
+         id='textarea-scenario',
+         children=convert_to_markdown(scenario_description[[pretty_names[x] for x in scenario_options][0]]),
     ),
 ])
 

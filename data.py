@@ -51,36 +51,38 @@ round_dict_water = {
     "water_mio3": 1,
     "oly_pool": 1,
 }
+
 scenario_description = {
-    "CLEVER": "CLEVER Scenario:\nstands for Collaborative Low Energy Vision for the"
+    "CLEVER": "#### CLEVER Scenario:\nstands for Collaborative Low Energy Vision for the"
               " European Region (CLEVER) and it was developed by négaWatt Association "
               "through a bottom-up approach with 25 different partners. It focuses on "
               "reaching 100% renewables and climate neutrality by 2050 through two "
               "principles: (1) of sufficiency (that redefines the needs for "
               "resource-intensive services) and (2) efficiency (that reduces the energy"
-              " demand). You can find the CLEVER scenario here.",
-    "PAC2.0": "PAC2.0 Scenario:\nParis Agreement Compatible (PAC) Scenario, was "
+              " demand). You can find the CLEVER scenario [here](https://clever-energy-scenario.eu/).",
+    "PAC2.0": "#### PAC2.0 Scenario:\nParis Agreement Compatible (PAC) Scenario, was "
               "developed in 2020 by Climate Action Network (CAN) Europe and the "
-              "European Environmental Bureau (EEB) under the banner of the PAC project."
+              "European Environmental Bureau (EEB) under the banner "
+              "[of the PAC project](https://www.pac-scenarios.eu/)."
               " It aims at achieving 100% renewables and net-zero greenhouse gas "
               "emissions by 2040 (with an intermediate step of 65% GHG emissions "
               "reduction by 2030), with emphasis on efficiency. 2022 datasets are used "
               "for this analysis and the updated in 2023 and nationally disaggregated "
-              "scenarios can be found here.",
-    'TYNDP "Distributed Energy" (DE)': 'Distributed Energy:\nis one of the top-down '
+              "scenarios can be found [here](https://www.pac-scenarios.eu/pac-scenario/how-a-europe-on-track-of-meeting-the-15c-would-look-like.html).",
+    'TYNDP "Distributed Energy" (DE)': '#### Distributed Energy:\nis one of the top-down '
                                        'scenarios developed by the European Network of '
                                        'Transmission System Operators for Electricity '
-                                       '(ENTSO-E) together with the European Network of '
-                                       'Transmission System Operators for Gas (ENTSOG) '
-                                       'for the Ten-Year Network Development Plan '
+                                       '(ENTSO-E) together with the European Network of'
+                                       ' Transmission System Operators for Gas (ENTSOG)'
+                                       ' for the Ten-Year Network Development Plan '
                                        '(TYNDP). It assumes at least a 55% of GHG '
                                        'emission reduction in 2030 and climate '
                                        'neutrality in 2050. Its main drives are: '
                                        'reduced energy demand, transition initiated at '
                                        'local level and focus on decentralised '
                                        'technologies. More information can be found '
-                                       'here.',
-    'TYNDP "Global Ambition" (GA)': 'Global Ambition:\nis one of the top-down scenarios'
+                                       '[here](https://2022.entsos-tyndp-scenarios.eu/wp-content/uploads/2022/04/TYNDP2022_Joint_Scenario_Full-Report-April-2022.pdf).',
+    'TYNDP "Global Ambition" (GA)': '#### Global Ambition:\nis one of the top-down scenarios'
                                     ' developed by the European Network of Transmission'
                                     ' System Operators for Electricity (ENTSO-E) '
                                     'together with the European Network of Transmission'
@@ -92,7 +94,7 @@ scenario_description = {
                                     'technologies, decarbonisation of energy supply, '
                                     'while including imports and low carbon energy '
                                     '(nuclear and integration of CCS). More information'
-                                    ' can be found here.',
+                                    ' can be found [here](https://2022.entsos-tyndp-scenarios.eu/wp-content/uploads/2022/04/TYNDP2022_Joint_Scenario_Full-Report-April-2022.pdf).',
 }
 
 

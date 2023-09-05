@@ -138,8 +138,9 @@ def choropleth(  # noqa: PLR0913
         "col-6",
     )
 
+
 @callback(
-        [Output('textarea-scenario', 'value'), Output('textarea-scenario', 'style')],
+        Output('textarea-scenario', 'children'),
         [Input(component_id="scenarios", component_property="active_tab"),
          Input(component_id="scenario", component_property="value"),
          Input(component_id="scenario_1", component_property="value"),
@@ -147,17 +148,10 @@ def choropleth(  # noqa: PLR0913
 )
 def update_output(scenarios: str, scenario: str, scenario_1: str,
                   scenario_2: str,):
-    height_dict = {"CLEVER": 110, "PAC2.0": 110, 'TYNDP "Distributed Energy" (DE)': 130,
-                   'TYNDP "Global Ambition" (GA)': 130}
     if scenarios == "scenario_single":
-        return data.get_scenario_text()[scenario], {'width': '100%',
-                                                    'height': height_dict[scenario],
-                                                    "resize": "none"}
+        return layout.convert_to_markdown(data.get_scenario_text()[scenario])
     else:
-        return data.get_scenario_text()[scenario_1] + "\n\n" + \
-               data.get_scenario_text()[scenario_2], \
-            {'width': '100%', 'height': height_dict[scenario_1] +
-                                        height_dict[scenario_2] + 10, "resize": "none"}
+        return layout.convert_to_markdown(data.get_scenario_text()[scenario_1]+"\n"+data.get_scenario_text()[scenario_2])
 
 
 @callback(
