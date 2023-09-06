@@ -59,7 +59,11 @@ scenario_description = {
               "reaching 100% renewables and climate neutrality by 2050 through two "
               "principles: (1) of sufficiency (that redefines the needs for "
               "resource-intensive services) and (2) efficiency (that reduces the energy"
-              " demand). You can find the CLEVER scenario [here](https://clever-energy-scenario.eu/).",
+              " demand). You can find the CLEVER scenario [here](https://clever-energy-scenario.eu/). "
+              "The underlying results for "
+              "[water](https://github.com/rl-institut/rgi/blob/main/data/clever_water_joined.csv) "
+              "and [area](https://github.com/rl-institut/rgi/blob/main/data/clever_area_joined.csv) "
+              "requirements are available on Github.",
     "PAC2.0": "#### PAC2.0 Scenario:\nParis Agreement Compatible (PAC) Scenario, was "
               "developed in 2020 by Climate Action Network (CAN) Europe and the "
               "European Environmental Bureau (EEB) under the banner "
@@ -68,7 +72,11 @@ scenario_description = {
               "emissions by 2040 (with an intermediate step of 65% GHG emissions "
               "reduction by 2030), with emphasis on efficiency. 2022 datasets are used "
               "for this analysis and the updated in 2023 and nationally disaggregated "
-              "scenarios can be found [here](https://www.pac-scenarios.eu/pac-scenario/how-a-europe-on-track-of-meeting-the-15c-would-look-like.html).",
+              "scenarios can be found [here](https://www.pac-scenarios.eu/pac-scenario/how-a-europe-on-track-of-meeting-the-15c-would-look-like.html)."
+              " The underlying results for "
+              "[water](https://github.com/rl-institut/rgi/blob/main/data/pac2_0_water_joined.csv) "
+              "and [area](https://github.com/rl-institut/rgi/blob/main/data/pac2_0_area_joined.csv) "
+              "requirements are available on Github.",
     'TYNDP "Distributed Energy" (DE)': '#### Distributed Energy:\nis one of the top-down '
                                        'scenarios developed by the European Network of '
                                        'Transmission System Operators for Electricity '
@@ -81,7 +89,11 @@ scenario_description = {
                                        'reduced energy demand, transition initiated at '
                                        'local level and focus on decentralised '
                                        'technologies. More information can be found '
-                                       '[here](https://2022.entsos-tyndp-scenarios.eu/wp-content/uploads/2022/04/TYNDP2022_Joint_Scenario_Full-Report-April-2022.pdf).',
+                                       '[here](https://2022.entsos-tyndp-scenarios.eu/wp-content/uploads/2022/04/TYNDP2022_Joint_Scenario_Full-Report-April-2022.pdf).'
+                                       " The underlying results for "
+                                       "[water](https://github.com/rl-institut/rgi/blob/main/data/tyndp_de_water_joined.csv) "
+                                       "and [area](https://github.com/rl-institut/rgi/blob/main/data/tyndp_de_area_joined.csv) "
+                                       "requirements are available on Github.",
     'TYNDP "Global Ambition" (GA)': '#### Global Ambition:\nis one of the top-down scenarios'
                                     ' developed by the European Network of Transmission'
                                     ' System Operators for Electricity (ENTSO-E) '
@@ -94,7 +106,11 @@ scenario_description = {
                                     'technologies, decarbonisation of energy supply, '
                                     'while including imports and low carbon energy '
                                     '(nuclear and integration of CCS). More information'
-                                    ' can be found [here](https://2022.entsos-tyndp-scenarios.eu/wp-content/uploads/2022/04/TYNDP2022_Joint_Scenario_Full-Report-April-2022.pdf).',
+                                    ' can be found [here](https://2022.entsos-tyndp-scenarios.eu/wp-content/uploads/2022/04/TYNDP2022_Joint_Scenario_Full-Report-April-2022.pdf).'
+                                    " The underlying results for "
+                                    "[water](https://github.com/rl-institut/rgi/blob/main/data/tyndp_ga_water_joined.csv) "
+                                    "and [area](https://github.com/rl-institut/rgi/blob/main/data/tyndp_ga_area_joined.csv) "
+                                    "requirements are available on Github.",
 }
 
 
