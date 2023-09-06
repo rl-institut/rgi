@@ -116,17 +116,13 @@ atlas = dbc.Row(
         dbc.Col(
             id="col_choropleth_1",
             children=[
-                dcc.Graph(
-                    id="choropleth_1",
-                ),
+                dcc.Graph(id="choropleth_1", style={"width": "100%"}),
             ],
         ),
         dbc.Col(
             id="col_choropleth_2",
             children=[
-                dcc.Graph(
-                    id="choropleth_2",
-                ),
+                dcc.Graph(id="choropleth_2", style={"width": "100%"}),
             ],
         ),
     ],
