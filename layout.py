@@ -77,6 +77,7 @@ def convert_to_markdown(text):
 
     return markdown
 
+
 scenario_text = html.Div([
     dcc.Markdown(
          id='textarea-scenario',

@@ -151,14 +151,14 @@ def get_pretty_names(offshore=False) -> pd.DataFrame:
     filename = "pretty_names.csv"
     df = pd.read_csv(settings.DATA_DIR / filename)
     if offshore:
-        df["pretty_name"] = [", ".join([df.country_name[i], df.Island[i], "Offshore "+df.Region[i]])
-                             if df.island[i]
-                             else ", ".join([df.country_name[i], "Offshore "+df.Region[i]])
+        df["pretty_name"] = [", ".join([df.country_name[i], df.Name[i], "Offshore "])
+                             if df.boolean[i]
+                             else ", ".join([df.country_name[i], "Offshore "])
                              for i in df.index]
     else:
-        df["pretty_name"] = [", ".join([df.country_name[i], df.Island[i], df.Region[i]])
-                             if df.island[i]
-                             else ", ".join([df.country_name[i], df.Region[i]])
+        df["pretty_name"] = [", ".join([df.country_name[i], df.Name[i]])
+                             if df.boolean[i]
+                             else ", ".join([df.country_name[i]])
                              for i in df.index]
     return dict(zip(df.name, df.pretty_name))
 

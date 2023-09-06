@@ -101,7 +101,7 @@ def get_choropleth(
         color_continuous_scale=scale,
         scope="europe",
         featureidkey="properties.name",
-        hover_name=df.pretty_name+" <br> <i>click for more details</i>",
+        hover_name=df.pretty_name+" <br> <i>Click to show bar plot with more detailed information below.</i>",
         hover_data={"name": False, unit: True},
         labels=pretty_labels,
         range_color=(min_max[0][unit], min_max[1][unit]),
@@ -145,7 +145,7 @@ def get_choropleth(
             "offshore": "white",
         },  # #8AC7DB as alternative blue offshore color
         featureidkey="properties.name",
-        hover_name=df_offshore.pretty_name + ":<br> <i>click for more details</i>",
+        hover_name=df_offshore.pretty_name + ":<br> <i>Click to show bar plot with more detailed information below.</i>",
         hover_data=hover_dict,
         labels=pretty_labels,
         width=width, height=height
