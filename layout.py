@@ -191,15 +191,9 @@ DEFAULT_LAYOUT = dbc.Container(
                         },),
             ],
         ),
-        dbc.Row(dbc.Col(scenario_text, className="col-7", style={
-                        "margin-left": "20px",
-                        "margin-right": "50px",
-                        "margin-top": "10px",
-                        "margin-bottom": "50px",
-                        })
-                ),
         # row with bar chart
-        dbc.Row(dbc.Col(region, className="col-9"), style={"margin-right": "150px"}),
+        dbc.Row([dbc.Col(region, className="col-8"), dbc.Col(scenario_text, className="col-4")],)
+                #style={"margin-right": "50px"}),
     ],
     fluid=True,
 )
