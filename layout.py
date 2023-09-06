@@ -5,6 +5,7 @@ from dash import dcc, html
 
 import data
 
+pretty_names = data.get_sce_pretty_names()
 scenario_options = data.get_scenarios()
 scenario = dbc.Tabs(
     id="scenarios",
@@ -16,8 +17,8 @@ scenario = dbc.Tabs(
                 html.Label("Scenario:"),
                 dcc.Dropdown(
                     id="scenario",
-                    options=scenario_options,
-                    value=scenario_options[0],
+                    options=[pretty_names[x] for x in scenario_options],
+                    value=[pretty_names[x] for x in scenario_options][0],
                     clearable=False,
                 ),
             ],
@@ -31,8 +32,8 @@ scenario = dbc.Tabs(
                         html.Label("Scenario 1:"),
                         dcc.Dropdown(
                             id="scenario_1",
-                            options=scenario_options,
-                            value=scenario_options[0],
+                            options=[pretty_names[x] for x in scenario_options],
+                            value=[pretty_names[x] for x in scenario_options][0],
                             clearable=False,
                         ),
                     ],
@@ -42,8 +43,8 @@ scenario = dbc.Tabs(
                         html.Label("Scenario 2:"),
                         dcc.Dropdown(
                             id="scenario_2",
-                            options=scenario_options,
-                            value=scenario_options[0],
+                            options=[pretty_names[x] for x in scenario_options],
+                            value=[pretty_names[x] for x in scenario_options][1],
                             clearable=False,
                         ),
                     ],
@@ -51,7 +52,44 @@ scenario = dbc.Tabs(
             ],
         ),
     ],
+    style={"margin-bottom": "10px"},
 )
+
+scenario_description = data.get_scenario_text()
+
+
+def convert_to_markdown(text: str) -> str:
+    """Convert text to markdown."""
+    markdown = ""
+    lines = text.split("\n")
+
+    for line in lines:
+        if line.startswith("#"):
+            level = line.count("#")
+            markdown += f"{'#' * level} {line[level:].strip()}\n"
+        elif line.startswith("* "):
+            markdown += f"- {line[2:]}\n"
+        elif line.startswith("1. "):
+            markdown += f"1. {line[3:]}\n"
+        elif line.startswith("> "):
+            markdown += f"> {line[2:]}\n"
+        else:
+            markdown += line + "\n"
+
+    return markdown
+
+
+scenario_text = html.Div(
+    [
+        dcc.Markdown(
+            id="textarea-scenario",
+            children=convert_to_markdown(
+                scenario_description[[pretty_names[x] for x in scenario_options][0]],
+            ),
+        ),
+    ],
+)
+
 year_options = data.get_years()
 year = html.Div(
     [
@@ -63,6 +101,7 @@ year = html.Div(
             value=year_options[0],
         ),
     ],
+    style={"margin-bottom": "10px", "margin-top": "10px"},
 )
 requirements = html.Div(
     [
@@ -76,6 +115,7 @@ requirements = html.Div(
             value="area",
         ),
     ],
+    style={"margin-bottom": "10px"},
 )
 unit = html.Div(
     [
@@ -83,8 +123,9 @@ unit = html.Div(
         dbc.RadioItems(
             id="unit",
             options=[
+                {"label": "km²", "value": "area_km2"},
                 {"label": "Percentage", "value": "rel"},
-                {"label": "Olympic Soccer Fields", "value": "oly_field"},
+                {"label": "Olympic Soccer Fields (105 x 68 m²)", "value": "oly_field"},
             ],
             value="rel",
         ),
@@ -94,13 +135,15 @@ criteria_options = data.get_criteria("area")
 criteria = html.Div(
     [
         html.Label("Criteria for requirements:"),
-        dcc.Dropdown(
+        dcc.Checklist(
             id="criteria",
             options=criteria_options,
             value=criteria_options,
-            multi=True,
+            labelStyle={"display": "block"},
+            inputStyle={"margin-right": "5px"},
         ),
     ],
+    style={"margin-top": "10px"},
 )
 
 region = html.Section(
@@ -122,7 +165,11 @@ atlas = dbc.Row(
         dbc.Col(
             id="col_choropleth_2",
             children=[
-                dcc.Graph(id="choropleth_2", style={"width": "100%"}),
+                dcc.Graph(
+                    id="choropleth_2",
+                    style={"width": "100%"},
+                    config={"displayModeBar": False},
+                ),
             ],
         ),
     ],
@@ -134,9 +181,34 @@ controls = html.Section(
 
 DEFAULT_LAYOUT = dbc.Container(
     [
+        # row with choropleth map
         dbc.Row(
-            [dbc.Col(atlas, className="col-9"), dbc.Col(controls, className="col-3")],
+            [
+                dbc.Col(
+                    atlas,
+                    className="col-8",
+                    style={"margin-top": "10px"},
+                ),
+                dbc.Col(
+                    controls,
+                    className="col-3",
+                    style={
+                        "margin-left": "20px",
+                        "margin-right": "50px",
+                        "margin-top": "10px",
+                        "margin-bottom": "50px",
+                    },
+                ),
+            ],
         ),
-        dbc.Row(dbc.Col(region, className="col-9")),
+        # row with bar chart
+        dbc.Row(
+            [
+                dbc.Col(region, className="col-8"),
+                dbc.Col(scenario_text, className="col-4"),
+            ],
+        ),
+        # style={"margin-right": "50px"}),
     ],
+    fluid=True,
 )

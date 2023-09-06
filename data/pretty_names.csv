@@ -1,0 +1,51 @@
+,name,country,region_nr,boolean,country_name,Name
+0,AT1 0,AT,0,FALSE,Austria,
+1,BE1 0,BE,0,FALSE,Belgium,
+2,BG1 0,BG,0,FALSE,Bulgaria,
+3,CZ1 0,CZ,0,FALSE,Czech Republic,
+4,DE1 0,DE,0,TRUE,Germany,Western Germany
+5,DE1 1,DE,1,TRUE,Germany,Northern Germany
+6,DE1 2,DE,2,TRUE,Germany,Eastern Germany
+7,DE1 3,DE,3,TRUE,Germany,North West Germany
+8,DE1 4,DE,4,TRUE,Germany,South West Germany
+9,DE1 5,DE,5,TRUE,Germany,South East Germany
+10,DE1 6,DE,6,TRUE,Germany,North East Germany
+11,DK1 0,DK,0,TRUE,Denmark,Jutland and Funen
+12,DK2 0,DK,0,TRUE,Denmark,Zealand
+13,EE6 0,EE,0,FALSE,Estonia,
+14,ES1 0,ES,0,TRUE,Spain,South West Spain
+15,ES1 1,ES,1,TRUE,Spain,Eastern Spain
+16,ES1 2,ES,2,TRUE,Spain,North West Spain
+17,ES4 0,ES,0,TRUE,Spain,Mallorca
+18,FI2 0,FI,0,FALSE,Finland,
+19,FR1 0,FR,0,TRUE,France,South East France
+20,FR1 1,FR,1,TRUE,France,Northern France
+21,FR1 2,FR,2,TRUE,France,Central France
+22,FR1 3,FR,3,TRUE,France,South West France
+23,FR1 4,FR,4,TRUE,France,Southern France
+24,FR1 5,FR,5,TRUE,France,North East France
+25,FR1 6,FR,6,TRUE,France,North West France
+26,GB0 0,GB,0,TRUE,United Kingdom,South East England and London
+27,GB0 1,GB,1,TRUE,United Kingdom,Scotland
+28,GB0 2,GB,2,TRUE,United Kingdom,Wales and South West England
+29,GB0 3,GB,3,TRUE,United Kingdom,Northern England
+30,GB5 0,GB,0,TRUE,United Kingdom,Northern Ireland
+31,GR1 0,GR,0,FALSE,Greece,
+32,HR1 0,HR,0,FALSE,Croatia,
+33,HU1 0,HU,0,FALSE,Hungary,
+34,IE5 0,IE,0,FALSE,Republic of Ireland,
+35,IT1 0,IT,0,TRUE,Italy,Central Italy
+36,IT1 1,IT,1,TRUE,Italy,North East Italy
+37,IT1 2,IT,2,TRUE,Italy,Southern Italy and Sicily
+38,IT1 3,IT,3,TRUE,Italy,North West Italy
+39,IT3 0,IT,0,TRUE,Italy,Sardinia
+40,LT6 0,LT,0,FALSE,Lithuania,
+41,LU1 0,LU,0,FALSE,Luxembourg,
+42,LV6 0,LV,0,FALSE,Latvia,
+43,NL1 0,NL,0,FALSE,Netherlands,
+44,PL1 0,PL,0,FALSE,Poland,
+45,PT1 0,PT,0,FALSE,Portugal,
+46,RO1 0,RO,0,FALSE,Romania,
+47,SE2 0,SE,0,FALSE,Sweden,
+48,SI1 0,SI,0,FALSE,Slovenia,
+49,SK1 0,SK,0,FALSE,Slovakia,

@@ -2,24 +2,34 @@
 
 import dash
 import dash_bootstrap_components as dbc
-from dash import Input, Output, ctx
+from dash import Input, Output, ctx, callback
 from plotly import graph_objects as go
 
 import data
 import graphs
 import layout
 import settings
+from flask_caching import Cache
 
 app = dash.Dash(
     __name__,
     meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=4.0"},
     ],
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    external_stylesheets=["assets/custom.css", dbc.themes.BOOTSTRAP],
 )
 app.layout = layout.DEFAULT_LAYOUT
 server = app.server
 server.secret_key = settings.SECRET_KEY
+
+cache = Cache(
+    app.server,
+    config={
+        # try 'filesystem' if you don't want to setup redis
+        "CACHE_TYPE": "filesystem",
+        "CACHE_DIR": "cache-directory",
+    },
+)
 
 
 @app.callback(
@@ -33,15 +43,16 @@ server.secret_key = settings.SECRET_KEY
     prevent_initial_call=True,
 )
 def change_unit(
-    requirement: str,
+        requirement: str,
 ) -> tuple[list[dict[str, str]], str, list[dict[str, str]], list[str]]:
     """Change unit related to selected requirement."""
     criteria = data.get_criteria(requirement)
     if requirement == "area":
         return (
             [
+                {"label": "km²", "value": "area_km2"},
                 {"label": "Percentage", "value": "rel"},
-                {"label": "Olympic Soccer Fields", "value": "oly_field"},
+                {"label": "Olympic Soccer Fields (105 x 68 m²)", "value": "oly_field"},
             ],
             "rel",
             [{"label": option, "value": option} for option in criteria],
@@ -50,7 +61,7 @@ def change_unit(
     return (
         [
             {"label": "Mio. m³", "value": "water_miom3"},
-            {"label": "Olympic Swimming Pools", "value": "oly_pool"},
+            {"label": "Olympic Swimming Pools (50 x 25 x 2 m³)", "value": "oly_pool"},
         ],
         "water_miom3",
         [{"label": option, "value": option} for option in criteria],
@@ -77,14 +88,14 @@ def change_unit(
     ],
 )
 def choropleth(  # noqa: PLR0913
-    scenarios: str,
-    scenario: str,
-    scenario_1: str,
-    scenario_2: str,
-    year: int,
-    requirement: str,
-    unit: str,
-    criteria: list[str],
+        scenarios: str,
+        scenario: str,
+        scenario_1: str,
+        scenario_2: str,
+        year: int,
+        requirement: str,
+        unit: str,
+        criteria: list[str],
 ) -> tuple[go.Figure, go.Figure, str, str]:
     """Return choropleth for given user settings."""
     if scenarios == "scenario_single":
@@ -95,10 +106,12 @@ def choropleth(  # noqa: PLR0913
                 year=year,
                 unit=unit,
                 criteria=criteria,
+                min_max=get_min_max(requirement, criteria, scenarios, year, scenario),
+                width=1100, height=800, scenarios=scenarios, coloraxes=True
             ),
             graphs.blank_fig(),
-            "col-12",
-            "col-0",
+            "col-11",
+            "col-1",
         )
     return (
         graphs.get_choropleth(
@@ -107,6 +120,9 @@ def choropleth(  # noqa: PLR0913
             year=year,
             unit=unit,
             criteria=criteria,
+            min_max=get_min_max(requirement, criteria, scenarios, year,
+                                scenario_1=scenario_1, scenario_2=scenario_2),
+            width=600, height=600, scenarios=scenarios, coloraxes=False
         ),
         graphs.get_choropleth(
             scenario=scenario_2,
@@ -114,10 +130,44 @@ def choropleth(  # noqa: PLR0913
             year=year,
             unit=unit,
             criteria=criteria,
+            min_max=get_min_max(requirement, criteria, scenarios, year,
+                                scenario_1=scenario_1, scenario_2=scenario_2),
+            width=700, height=600, scenarios=scenarios, coloraxes=True
         ),
-        "col-6",
+        "col-5",
         "col-6",
     )
+
+
+@callback(
+        Output('textarea-scenario', 'children'),
+        [Input(component_id="scenarios", component_property="active_tab"),
+         Input(component_id="scenario", component_property="value"),
+         Input(component_id="scenario_1", component_property="value"),
+         Input(component_id="scenario_2", component_property="value")]
+)
+def update_output(scenarios: str, scenario: str, scenario_1: str,
+                  scenario_2: str,):
+    if scenarios == "scenario_single":
+        return layout.convert_to_markdown(data.get_scenario_text()[scenario])
+    else:
+        return layout.convert_to_markdown(data.get_scenario_text()[scenario_1]+"\n"+data.get_scenario_text()[scenario_2])
+
+
+@callback(
+    Output(component_id="scenario_1", component_property="value"),
+    Output(component_id="scenario_2", component_property="value"),
+    Input(component_id="scenario_1", component_property="value"),
+    Input(component_id="scenario_2", component_property="value"),
+)
+def sync_input(sce1, sce2):
+    input_id = ctx.triggered[0]["prop_id"].split(".")[0]
+    if sce1 == sce2:
+        if input_id == "scenario_1":
+            sce2 = [x for x in data.get_scenarios() if x != sce1][0]
+        else:
+            sce1 = [x for x in data.get_scenarios() if x != sce2][0]
+    return sce1, sce2
 
 
 @app.callback(
@@ -138,34 +188,35 @@ def choropleth(  # noqa: PLR0913
     ],
 )
 def bar_chart(  # noqa: PLR0913
-    choropleth_feature_1: dict,
-    choropleth_feature_2: dict,
-    scenarios: str,
-    scenario: str,
-    scenario_1: str,
-    scenario_2: str,
-    year: int,
-    requirement: str,
-    unit: str,
-    criteria: list[str],
+        choropleth_feature_1: dict,
+        choropleth_feature_2: dict,
+        scenarios: str,
+        scenario: str,
+        scenario_1: str,
+        scenario_2: str,
+        year: int,
+        requirement: str,
+        unit: str,
+        criteria: list[str],
 ) -> tuple[go.Figure]:
     """Return bar chart for selected region."""
     choropleth_triggered = ctx.triggered_id
     if choropleth_triggered is None or choropleth_triggered in (
-        "scenarios",
-        "scenario",
-        "scenario_1",
-        "scenario_2",
-        "year",
-        "requirement",
-        "unit",
-        "criteria",
+            "scenarios",
+            "scenario",
+            "scenario_1",
+            "scenario_2",
+            "requirement",
+            "unit",
+            "criteria",
     ):
         return (graphs.blank_fig(),)
-    if choropleth_triggered == "choropleth_1":
+    if (choropleth_triggered == "choropleth_1") or ((choropleth_triggered == "year") & (choropleth_feature_1 is not None)):
         region = choropleth_feature_1["points"][0]["location"]
-    else:
+    elif (choropleth_triggered == "choropleth_2") or ((choropleth_triggered == "year") & (choropleth_feature_2 is not None)):
         region = choropleth_feature_2["points"][0]["location"]
+    else:
+        return (graphs.blank_fig(),)
 
     region_scenarios = (
         [scenario] if scenarios == "scenario_single" else [scenario_1, scenario_2]
@@ -181,6 +232,25 @@ def bar_chart(  # noqa: PLR0913
             region=region,
         ),
     )
+
+
+# @cache.memoize(timeout=0)
+def get_min_max(req: str, criteria: [str], scenarios: str, year: int, scenario=None,
+                scenario_1=None, scenario_2=None,
+                ) -> tuple:
+    """Get min and max values for each unit in tuple of pd.DataFrames."""
+    min_df, max_df = data.get_min_max(req, criteria)
+    sce_names = data.get_sce_names()
+    if scenarios == "scenario_single":
+        min_val = min_df.loc[min_df.sce_name == sce_names[scenario]]
+        max_val = max_df.loc[max_df.sce_name == sce_names[scenario]]
+    else:
+        min_val = min_df.loc[(min_df.sce_name == sce_names[scenario_1]) |
+                             (min_df.sce_name == sce_names[scenario_2])]
+        max_val = max_df.loc[(max_df.sce_name == sce_names[scenario_1]) |
+                             (max_df.sce_name == sce_names[scenario_2])]
+    return min_val.drop(columns=["sce_name", "target_year"]).min(), \
+        max_val.drop(columns=["sce_name", "target_year"]).max()
 
 
 if __name__ == "__main__":
