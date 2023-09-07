@@ -58,32 +58,37 @@ scenario = dbc.Tabs(
 scenario_description = data.get_scenario_text()
 
 
-def convert_to_markdown(text):
-    markdown = ''
-    lines = text.split('\n')
+def convert_to_markdown(text: str) -> str:
+    """Convert text to markdown."""
+    markdown = ""
+    lines = text.split("\n")
 
     for line in lines:
-        if line.startswith('#'):
-            level = line.count('#')
+        if line.startswith("#"):
+            level = line.count("#")
             markdown += f"{'#' * level} {line[level:].strip()}\n"
-        elif line.startswith('* '):
+        elif line.startswith("* "):
             markdown += f"- {line[2:]}\n"
-        elif line.startswith('1. '):
+        elif line.startswith("1. "):
             markdown += f"1. {line[3:]}\n"
-        elif line.startswith('> '):
+        elif line.startswith("> "):
             markdown += f"> {line[2:]}\n"
         else:
-            markdown += line + '\n'
+            markdown += line + "\n"
 
     return markdown
 
 
-scenario_text = html.Div([
-    dcc.Markdown(
-         id='textarea-scenario',
-         children=convert_to_markdown(scenario_description[[pretty_names[x] for x in scenario_options][0]]),
-    ),
-])
+scenario_text = html.Div(
+    [
+        dcc.Markdown(
+            id="textarea-scenario",
+            children=convert_to_markdown(
+                scenario_description[[pretty_names[x] for x in scenario_options][0]],
+            ),
+        ),
+    ],
+)
 
 year_options = data.get_years()
 year = html.Div(
@@ -134,8 +139,7 @@ criteria = html.Div(
             id="criteria",
             options=criteria_options,
             value=criteria_options,
-            #multi=True,
-            labelStyle={'display': 'block'},
+            labelStyle={"display": "block"},
             inputStyle={"margin-right": "5px"},
         ),
     ],
@@ -155,15 +159,17 @@ atlas = dbc.Row(
         dbc.Col(
             id="col_choropleth_1",
             children=[
-                dcc.Graph(
-                    id="choropleth_1",
-                ),
+                dcc.Graph(id="choropleth_1", style={"width": "100%"}),
             ],
         ),
         dbc.Col(
             id="col_choropleth_2",
             children=[
-                dcc.Graph(id="choropleth_2", config={"displayModeBar": False}),
+                dcc.Graph(
+                    id="choropleth_2",
+                    style={"width": "100%"},
+                    config={"displayModeBar": False},
+                ),
             ],
         ),
     ],
@@ -183,17 +189,26 @@ DEFAULT_LAYOUT = dbc.Container(
                     className="col-8",
                     style={"margin-top": "10px"},
                 ),
-                dbc.Col(controls, className="col-3", style={
+                dbc.Col(
+                    controls,
+                    className="col-3",
+                    style={
                         "margin-left": "20px",
                         "margin-right": "50px",
                         "margin-top": "10px",
                         "margin-bottom": "50px",
-                        },),
+                    },
+                ),
             ],
         ),
         # row with bar chart
-        dbc.Row([dbc.Col(region, className="col-8"), dbc.Col(scenario_text, className="col-4")],)
-                #style={"margin-right": "50px"}),
+        dbc.Row(
+            [
+                dbc.Col(region, className="col-8"),
+                dbc.Col(scenario_text, className="col-4"),
+            ],
+        ),
+        # style={"margin-right": "50px"}),
     ],
     fluid=True,
 )
