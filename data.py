@@ -53,8 +53,8 @@ round_dict_water = {
 }
 
 scenario_description = {
-    "CLEVER": "#### CLEVER Scenario:\nstands for Collaborative Low Energy Vision for the"
-              " European Region (CLEVER) and it was developed by négaWatt Association "
+    "CLEVER": "#### CLEVER Scenario:\n CLEVER stands for Collaborative Low Energy Vision for the"
+              " European Region and it was developed by négaWatt Association "
               "through a bottom-up approach with 25 different partners. It focuses on "
               "reaching 100% renewables and climate neutrality by 2050 through two "
               "principles: (1) of sufficiency (that redefines the needs for "
@@ -64,7 +64,7 @@ scenario_description = {
               "[water](https://github.com/rl-institut/rgi/blob/main/data/clever_water_joined.csv) "
               "and [area](https://github.com/rl-institut/rgi/blob/main/data/clever_area_joined.csv) "
               "requirements are available on Github.",
-    "PAC2.0": "#### PAC2.0 Scenario:\nParis Agreement Compatible (PAC) Scenario, was "
+    "PAC2.0": "#### PAC2.0 Scenario:\nThe Paris Agreement Compatible (PAC) Scenario, was "
               "developed in 2020 by Climate Action Network (CAN) Europe and the "
               "European Environmental Bureau (EEB) under the banner "
               "[of the PAC project](https://www.pac-scenarios.eu/)."
@@ -77,7 +77,7 @@ scenario_description = {
               "[water](https://github.com/rl-institut/rgi/blob/main/data/pac2_0_water_joined.csv) "
               "and [area](https://github.com/rl-institut/rgi/blob/main/data/pac2_0_area_joined.csv) "
               "requirements are available on Github.",
-    'TYNDP "Distributed Energy" (DE)': '#### Distributed Energy:\nis one of the top-down '
+    'TYNDP "Distributed Energy" (DE)': '#### Distributed Energy:\nDistributed Energy is one of the top-down '
                                        'scenarios developed by the European Network of '
                                        'Transmission System Operators for Electricity '
                                        '(ENTSO-E) together with the European Network of'
@@ -94,7 +94,7 @@ scenario_description = {
                                        "[water](https://github.com/rl-institut/rgi/blob/main/data/tyndp_de_water_joined.csv) "
                                        "and [area](https://github.com/rl-institut/rgi/blob/main/data/tyndp_de_area_joined.csv) "
                                        "requirements are available on Github.",
-    'TYNDP "Global Ambition" (GA)': '#### Global Ambition:\nis one of the top-down scenarios'
+    'TYNDP "Global Ambition" (GA)': '#### Global Ambition:\nGlobal Ambition is one of the top-down scenarios'
                                     ' developed by the European Network of Transmission'
                                     ' System Operators for Electricity (ENTSO-E) '
                                     'together with the European Network of Transmission'

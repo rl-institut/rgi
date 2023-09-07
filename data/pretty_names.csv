@@ -35,9 +35,9 @@
 33,HU1 0,HU,0,FALSE,Hungary,
 34,IE5 0,IE,0,FALSE,Republic of Ireland,
 35,IT1 0,IT,0,TRUE,Italy,Central Italy
-36,IT1 1,IT,1,TRUE,Italy,North East Italy
+36,IT1 1,IT,1,TRUE,Italy,North West Italy
 37,IT1 2,IT,2,TRUE,Italy,Southern Italy and Sicily
-38,IT1 3,IT,3,TRUE,Italy,North West Italy
+38,IT1 3,IT,3,TRUE,Italy,North East Italy
 39,IT3 0,IT,0,TRUE,Italy,Sardinia
 40,LT6 0,LT,0,FALSE,Lithuania,
 41,LU1 0,LU,0,FALSE,Luxembourg,

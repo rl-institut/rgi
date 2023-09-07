@@ -1,5 +1,4 @@
 sce_name,target_year,bus,type,area_km2,oly_field,rel,onshore
-clever,2030,AT,H2 Electrolysis,0.042904018123497,6,5.10839603107712E-05,True
 clever,2030,AT1 0,H2 Electrolysis,0.042904018123497,6,5.10839603107712E-05,True
 clever,2030,AT1 0,H2 Store,2.41622169252377E-07,0,2.87689075385949E-10,True
 clever,2030,AT1 0,grid,8.76940057447261,1228,0.010441346300156,True
