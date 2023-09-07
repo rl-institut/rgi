@@ -195,8 +195,8 @@ DEFAULT_LAYOUT = dbc.Container(
                     style={
                         "margin-left": "20px",
                         "margin-right": "50px",
-                        "margin-top": "10px",
-                        "margin-bottom": "50px",
+                        "margin-top": "60px",
+                        "margin-bottom": "30px",
                     },
                 ),
             ],
@@ -205,7 +205,7 @@ DEFAULT_LAYOUT = dbc.Container(
         dbc.Row(
             [
                 dbc.Col(region, className="col-8"),
-                dbc.Col(scenario_text, className="col-4"),
+                dbc.Col(scenario_text, className="col-3"),
             ],
         ),
         # style={"margin-right": "50px"}),
