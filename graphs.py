@@ -23,8 +23,8 @@ pretty_labels = {
     "electrolyser": "Electrolyser",
     "hydrogen storage": "H2 Storage",
     "clever": "CLEVER",
-    "tyndp_de": "TYNDP_DE",
-    "tyndp_ga": "TYNDP_GA",
+    "tyndp_de": "TYNDP DE",
+    "tyndp_ga": "TYNDP GA",
     "pac2_0": "PAC2.0",
 }
 

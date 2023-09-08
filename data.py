@@ -77,7 +77,7 @@ scenario_description = {
               "[water](https://github.com/rl-institut/rgi/blob/main/data/pac2_0_water_joined.csv) "
               "and [area](https://github.com/rl-institut/rgi/blob/main/data/pac2_0_area_joined.csv) "
               "requirements are available on Github.",
-    'TYNDP "Distributed Energy" (DE)': '#### Distributed Energy:\nDistributed Energy is one of the top-down '
+    'TYNDP "Distributed Energy" (DE)': '#### TYNDP "Distributed Energy" (DE):\nDistributed Energy is one of the top-down '
                                        'scenarios developed by the European Network of '
                                        'Transmission System Operators for Electricity '
                                        '(ENTSO-E) together with the European Network of'
@@ -94,7 +94,7 @@ scenario_description = {
                                        "[water](https://github.com/rl-institut/rgi/blob/main/data/tyndp_de_water_joined.csv) "
                                        "and [area](https://github.com/rl-institut/rgi/blob/main/data/tyndp_de_area_joined.csv) "
                                        "requirements are available on Github.",
-    'TYNDP "Global Ambition" (GA)': '#### Global Ambition:\nGlobal Ambition is one of the top-down scenarios'
+    'TYNDP "Global Ambition" (GA)': '#### TYNDP "Global Ambition" (GA):\nGlobal Ambition is one of the top-down scenarios'
                                     ' developed by the European Network of Transmission'
                                     ' System Operators for Electricity (ENTSO-E) '
                                     'together with the European Network of Transmission'
