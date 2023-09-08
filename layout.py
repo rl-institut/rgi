@@ -86,6 +86,7 @@ scenario_text = html.Div(
             children=convert_to_markdown(
                 scenario_description[[pretty_names[x] for x in scenario_options][0]],
             ),
+            link_target="_blank",
         ),
     ],
 )
