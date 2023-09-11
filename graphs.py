@@ -189,7 +189,7 @@ def get_choropleth(
     )
 
     if scenarios == "scenario_single":
-        fig.update_coloraxes(colorbar_x=0.89)
+        fig.update_coloraxes(colorbar_x=1)
     elif not coloraxes:
         fig.update(layout_coloraxis_showscale=False)
 
