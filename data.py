@@ -312,6 +312,10 @@ def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
             )
             data_dict[scenario] = df[(df["type"].isin(criteria)) & (df.onshore)]
         data_df = pd.concat(data_dict)
+        # ToDo
+        #  if len(region)>3 for regions, elif region == EU for EU, else for countries
+        data_df = data_df.loc[[True if len(region) > 3
+                               else False for region in data_df.bus]]
         data_df = (
             data_df.groupby(["bus", "target_year", "sce_name"])
             .sum()[["water_miom3", "oly_pool"]]
