@@ -151,7 +151,10 @@ def update_output(scenarios: str, scenario: str, scenario_1: str,
     if scenarios == "scenario_single":
         return layout.convert_to_markdown(data.get_scenario_text()[scenario])
     else:
-        return layout.convert_to_markdown(data.get_scenario_text()[scenario_1]+"\n"+data.get_scenario_text()[scenario_2])
+        try:
+            return layout.convert_to_markdown(data.get_scenario_text()[scenario_1]+"\n"+data.get_scenario_text()[scenario_2])
+        except KeyError:
+            pass
 
 
 @callback(
@@ -201,7 +204,9 @@ def bar_chart(  # noqa: PLR0913
 ) -> tuple[go.Figure]:
     """Return bar chart for selected region."""
     choropleth_triggered = ctx.triggered_id
-    if choropleth_triggered is None or choropleth_triggered in (
+    if choropleth_triggered is None:
+        return (graphs.blank_fig(),)
+    if (choropleth_triggered in (
             "scenarios",
             "scenario",
             "scenario_1",
@@ -209,9 +214,9 @@ def bar_chart(  # noqa: PLR0913
             "requirement",
             "unit",
             "criteria",
-    ):
-        return (graphs.blank_fig(),)
-    if (choropleth_triggered == "choropleth_1") or ((choropleth_triggered == "year") & (choropleth_feature_1 is not None)):
+    )) & (choropleth_feature_1 is None) & (choropleth_feature_2 is None):
+        region = "EU"
+    elif (choropleth_triggered == "choropleth_1") or ((choropleth_triggered == "year") & (choropleth_feature_1 is not None)):
         region = choropleth_feature_1["points"][0]["location"]
     elif (choropleth_triggered == "choropleth_2") or ((choropleth_triggered == "year") & (choropleth_feature_2 is not None)):
         region = choropleth_feature_2["points"][0]["location"]
