@@ -82,6 +82,7 @@ def change_unit(
         Input(component_id="scenario_1", component_property="value"),
         Input(component_id="scenario_2", component_property="value"),
         Input(component_id="year", component_property="value"),
+        Input(component_id="spatial_res", component_property="value"),
         Input(component_id="requirement", component_property="value"),
         Input(component_id="unit", component_property="value"),
         Input(component_id="criteria", component_property="value"),
@@ -93,6 +94,7 @@ def choropleth(  # noqa: PLR0913
         scenario_1: str,
         scenario_2: str,
         year: int,
+        spatial_res: str,
         requirement: str,
         unit: str,
         criteria: list[str],
@@ -102,6 +104,7 @@ def choropleth(  # noqa: PLR0913
         return (
             graphs.get_choropleth(
                 scenario=scenario,
+                spatial_res=spatial_res,
                 requirement=requirement,
                 year=year,
                 unit=unit,
@@ -116,6 +119,7 @@ def choropleth(  # noqa: PLR0913
     return (
         graphs.get_choropleth(
             scenario=scenario_1,
+            spatial_res=spatial_res,
             requirement=requirement,
             year=year,
             unit=unit,
@@ -126,6 +130,7 @@ def choropleth(  # noqa: PLR0913
         ),
         graphs.get_choropleth(
             scenario=scenario_2,
+            spatial_res=spatial_res,
             requirement=requirement,
             year=year,
             unit=unit,

@@ -40,6 +40,7 @@ def blank_fig() -> go.Figure:
 
 def get_choropleth(
         scenario: str,
+        spatial_res: str,
         requirement: str,
         year: int,
         unit: str,
@@ -52,7 +53,7 @@ def get_choropleth(
 ) -> px.choropleth:
     """Return choropleth for given user settings."""
     title = f"{pretty_labels[data.get_sce_names()[scenario]]} spatial {requirement} requirement for {year}"
-
+    # ToDo: if spatial_res == country, select aggregated country values in df
     df = data.prepare_data(
         scenario=scenario,
         requirement=requirement,
@@ -81,7 +82,7 @@ def get_choropleth(
     df["pretty_name"] = df["name"].replace(data.get_pretty_names())
     df_offshore["pretty_name"] = df_offshore["name"].replace(data.get_pretty_names(True))
     df_offshore["offshore_color"] = np.repeat("offshore", len(df_offshore))
-
+    # ToDo: if spatial_res == country, aggregate regions in gesjson to country level
     geojson = data.get_regions()
     geojson_offshore = data.get_regions_offshore()
     geojson_country_shapes = data.get_country_shapes()

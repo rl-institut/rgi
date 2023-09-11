@@ -104,6 +104,20 @@ year = html.Div(
     ],
     style={"margin-bottom": "10px", "margin-top": "10px"},
 )
+spatial_res = html.Div(
+    [
+        html.Label("Spatial Resolution:"),
+        dbc.RadioItems(
+            id="spatial_res",
+            options=[
+                {"label": "Region", "value": "region"},
+                {"label": "Country", "value": "country"},
+            ],
+            value="region",
+        ),
+    ],
+    style={"margin-bottom": "10px"},
+)
 requirements = html.Div(
     [
         html.Label("Requirements:"),
@@ -177,7 +191,7 @@ atlas = dbc.Row(
 )
 controls = html.Section(
     title="Settings",
-    children=[scenario, year, requirements, unit, criteria],
+    children=[scenario, year, spatial_res, requirements, unit, criteria],
 )
 
 DEFAULT_LAYOUT = dbc.Container(
