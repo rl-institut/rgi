@@ -146,6 +146,22 @@ unit = html.Div(
         ),
     ],
 )
+
+region_res = dbc.Tab(
+            tab_id="region_tab",
+            label="Region for bar plot",
+            children=[
+                html.Label("Region:"),
+                dcc.Dropdown(
+                    id="region_dd",
+                    options=sorted([x for x in list(set(data.get_pretty_names().values())) if "offshore" not in x]),
+                    value="European Union",
+                    clearable=False,
+                ),
+            ],
+            style={"margin-top": "10px"},
+        )
+
 criteria_options = data.get_criteria("area")
 criteria = html.Div(
     [
@@ -191,7 +207,7 @@ atlas = dbc.Row(
 )
 controls = html.Section(
     title="Settings",
-    children=[scenario, year, spatial_res, requirements, unit, criteria],
+    children=[scenario, year, spatial_res, requirements, unit, region_res, criteria],
 )
 
 DEFAULT_LAYOUT = dbc.Container(

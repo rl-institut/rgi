@@ -162,7 +162,7 @@ def get_water_requirements(scenario: str) -> pd.DataFrame:
     return pd.read_csv(settings.DATA_DIR / filename)
 
 
-def get_pretty_names(offshore=False) -> pd.DataFrame:
+def get_pretty_names(offshore=False) -> dict:
     """Return pretty country names data."""
     filename = "pretty_names.csv"
     df = pd.read_csv(settings.DATA_DIR / filename)

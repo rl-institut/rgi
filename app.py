@@ -179,6 +179,28 @@ def sync_input(sce1, sce2):
 
 
 @app.callback(
+    Output(component_id="region_dd", component_property="value"),
+    [
+        Input(component_id="choropleth_1", component_property="clickData"),
+        Input(component_id="choropleth_2", component_property="clickData"),
+        Input(component_id="region_dd", component_property="value")
+    ]
+)
+def update_region_dd(
+        choropleth_feature_1: dict,
+        choropleth_feature_2: dict,
+        region: str):
+    """Update region in drop down menu if region is selected on map."""
+    choropleth_triggered = ctx.triggered_id
+    if (choropleth_triggered == "choropleth_1") & (choropleth_feature_1 is not None):
+        return data.get_pretty_names()[choropleth_feature_1["points"][0]["location"]]
+    elif (choropleth_triggered == "choropleth_2") & (choropleth_feature_2 is not None):
+        return data.get_pretty_names()[choropleth_feature_2["points"][0]["location"]]
+    else:
+        return region
+
+
+@app.callback(
     [
         Output(component_id="region", component_property="figure"),
     ],
@@ -192,6 +214,7 @@ def sync_input(sce1, sce2):
         Input(component_id="year", component_property="value"),
         Input(component_id="requirement", component_property="value"),
         Input(component_id="unit", component_property="value"),
+        Input(component_id="region_dd", component_property="value"),
         Input(component_id="criteria", component_property="value"),
     ],
 )
@@ -205,6 +228,7 @@ def bar_chart(  # noqa: PLR0913
         year: int,
         requirement: str,
         unit: str,
+        region: str,
         criteria: list[str],
 ) -> tuple[go.Figure]:
     """Return bar chart for selected region."""
@@ -220,7 +244,11 @@ def bar_chart(  # noqa: PLR0913
             "unit",
             "criteria",
     )) & (choropleth_feature_1 is None) & (choropleth_feature_2 is None):
-        region = "EU"
+        name = [name for name, v in data.get_pretty_names().items() if v == region][0]
+        region = name
+    elif choropleth_triggered == "region_dd":
+        name = [name for name, v in data.get_pretty_names().items() if v == region][0]
+        region = name
     elif (choropleth_triggered == "choropleth_1") or ((choropleth_triggered == "year") & (choropleth_feature_1 is not None)):
         region = choropleth_feature_1["points"][0]["location"]
     elif (choropleth_triggered == "choropleth_2") or ((choropleth_triggered == "year") & (choropleth_feature_2 is not None)):
