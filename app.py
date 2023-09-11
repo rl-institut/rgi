@@ -111,7 +111,6 @@ def choropleth(  # noqa: PLR0913
                 unit=unit,
                 criteria=criteria,
                 min_max=get_min_max(requirement, criteria, scenarios, year, scenario),
-               # width=1100, 
                 height=800, scenarios=scenarios, coloraxes=True
             ),
             graphs.blank_fig(),
@@ -128,7 +127,6 @@ def choropleth(  # noqa: PLR0913
             criteria=criteria,
             min_max=get_min_max(requirement, criteria, scenarios, year,
                                 scenario_1=scenario_1, scenario_2=scenario_2),
-           # width=600, 
             height=600, scenarios=scenarios, coloraxes=False
         ),
         graphs.get_choropleth(
@@ -140,7 +138,6 @@ def choropleth(  # noqa: PLR0913
             criteria=criteria,
             min_max=get_min_max(requirement, criteria, scenarios, year,
                                 scenario_1=scenario_1, scenario_2=scenario_2),
-            # width=700, 
             height=600, scenarios=scenarios, coloraxes=True
         ),
         "col-5",
