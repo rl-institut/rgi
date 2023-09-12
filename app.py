@@ -109,7 +109,7 @@ def choropleth(  # noqa: PLR0913
                 year=year,
                 unit=unit,
                 criteria=criteria,
-                min_max=get_min_max(requirement, criteria, scenarios, year, scenario),
+                min_max=get_min_max(requirement, criteria, scenarios, year, scenario, spatial_res=spatial_res),
                 width=1100, height=800, scenarios=scenarios, coloraxes=True
             ),
             graphs.blank_fig(),
@@ -125,7 +125,7 @@ def choropleth(  # noqa: PLR0913
             unit=unit,
             criteria=criteria,
             min_max=get_min_max(requirement, criteria, scenarios, year,
-                                scenario_1=scenario_1, scenario_2=scenario_2),
+                                scenario_1=scenario_1, scenario_2=scenario_2, spatial_res=spatial_res),
             width=600, height=600, scenarios=scenarios, coloraxes=False
         ),
         graphs.get_choropleth(
@@ -136,7 +136,7 @@ def choropleth(  # noqa: PLR0913
             unit=unit,
             criteria=criteria,
             min_max=get_min_max(requirement, criteria, scenarios, year,
-                                scenario_1=scenario_1, scenario_2=scenario_2),
+                                scenario_1=scenario_1, scenario_2=scenario_2, spatial_res=spatial_res),
             width=700, height=600, scenarios=scenarios, coloraxes=True
         ),
         "col-5",
@@ -274,10 +274,10 @@ def bar_chart(  # noqa: PLR0913
 
 # @cache.memoize(timeout=0)
 def get_min_max(req: str, criteria: [str], scenarios: str, year: int, scenario=None,
-                scenario_1=None, scenario_2=None,
+                scenario_1=None, scenario_2=None, spatial_res="region"
                 ) -> tuple:
     """Get min and max values for each unit in tuple of pd.DataFrames."""
-    min_df, max_df = data.get_min_max(req, criteria)
+    min_df, max_df = data.get_min_max(req, criteria, spatial_res)
     sce_names = data.get_sce_names()
     if scenarios == "scenario_single":
         min_val = min_df.loc[min_df.sce_name == sce_names[scenario]]
