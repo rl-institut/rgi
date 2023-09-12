@@ -147,6 +147,12 @@ unit = html.Div(
     ],
 )
 
+reg_opts = sorted([x for x in list(set(data.get_pretty_names().values()))
+                   if "offshore" not in x])
+reg_opts.insert(0, reg_opts.pop(reg_opts.index("European Union")))
+
+reg_opts = [" ".join(["-", option]) if "," in option else option for option in reg_opts]
+
 region_res = dbc.Tab(
             tab_id="region_tab",
             label="Region for bar plot",
@@ -154,7 +160,7 @@ region_res = dbc.Tab(
                 html.Label("Region:"),
                 dcc.Dropdown(
                     id="region_dd",
-                    options=sorted([x for x in list(set(data.get_pretty_names().values())) if "offshore" not in x]),
+                    options=reg_opts,
                     value="European Union",
                     clearable=False,
                 ),

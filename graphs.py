@@ -52,7 +52,6 @@ def get_choropleth(
 ) -> px.choropleth:
     """Return choropleth for given user settings."""
     title = f"{pretty_labels[data.get_sce_names()[scenario]]} spatial {requirement} requirement for {year}"
-    # ToDo: if spatial_res == country, select aggregated country values in df
     df = data.prepare_data(
         scenario=scenario,
         requirement=requirement,
