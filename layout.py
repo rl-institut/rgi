@@ -217,17 +217,17 @@ DEFAULT_LAYOUT = dbc.Container(
             [
                 dbc.Col(
                     atlas,
-                    className="col-8",
-                    style={"margin-top": "10px"},
+                    className="col-md-8 col-sm-12",
+                    style={"padding-top": "10px"},
                 ),
                 dbc.Col(
                     controls,
-                    className="col-3",
+                    className="col-md-4 col-sm-12",
                     style={
-                        "margin-left": "20px",
-                        "margin-right": "50px",
-                        "margin-top": "80px",
-                        "margin-bottom": "30px",
+                        "padding-left": "20px",
+                        "padding-right": "50px",
+                        "padding-top": "80px",
+                        "padding-bottom": "30px",
                     },
                 ),
             ],
@@ -235,9 +235,9 @@ DEFAULT_LAYOUT = dbc.Container(
         # row with bar chart
         dbc.Row(
             [
-                dbc.Col(region, className="col-8"),
-                dbc.Col(scenario_text, className="col-3",
-                        style={"margin-left": "20px",}
+                dbc.Col(region, className="col-md-8 col-sm-12"),
+                dbc.Col(scenario_text, className="col-md-4 col-sm-12",
+                        style={"padding-left": "20px",}
                         ),
             ],
         ),
