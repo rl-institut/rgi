@@ -82,9 +82,8 @@ def get_choropleth(
     df["pretty_name"] = df["name"].replace(data.get_pretty_names())
     df_offshore["pretty_name"] = df_offshore["name"].replace(data.get_pretty_names(True))
     df_offshore["offshore_color"] = np.repeat("offshore", len(df_offshore))
-    # ToDo: if spatial_res == country, aggregate regions in gesjson to country level
-    geojson = data.get_regions()
-    geojson_offshore = data.get_regions_offshore()
+    geojson = data.get_regions(spatial_res)
+    geojson_offshore = data.get_regions_offshore(spatial_res)
     geojson_country_shapes = data.get_country_shapes()
     lons, lats = data.state_boundaries(geojson_country_shapes)
 

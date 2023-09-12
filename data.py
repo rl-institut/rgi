@@ -8,7 +8,9 @@ import settings
 
 COUNTRY_SHAPES = "regions_onshore_elec_s_30.geojson"
 ONSHORE_GEOJSON_FILENAME = "regions_onshore_elec_s_50.geojson"
+C_ONSHORE_GEOJSON_FILENAME = "countries_onshore_elec_s_50.geojson"
 OFFSHORE_GEOJSON_FILENAME = "regions_offshore_elec_s_50.geojson"
+C_OFFSHORE_GEOJSON_FILENAME = "countries_offshore_elec_s_50.geojson"
 
 SCENARIOS = ["clever", "tyndp_de", "tyndp_ga", "pac2_0"]
 sce_names = {"CLEVER": "clever", 'TYNDP "Distributed Energy" (DE)': "tyndp_de",
@@ -227,13 +229,20 @@ def get_criteria(requirement: str) -> list[str]:
     return criteria
 
 
-def get_regions() -> dict:
+def get_regions(spatial_res) -> dict:
     """Get onshore regions."""
-    with (settings.DATA_DIR / ONSHORE_GEOJSON_FILENAME).open(
-        "r",
-        encoding="utf-8",
-    ) as geojsonfile:
-        return json.load(geojsonfile)
+    if spatial_res == "region":
+        with (settings.DATA_DIR / ONSHORE_GEOJSON_FILENAME).open(
+                "r",
+                encoding="utf-8",
+        ) as geojsonfile:
+            return json.load(geojsonfile)
+    elif spatial_res == "country":
+        with (settings.DATA_DIR / C_ONSHORE_GEOJSON_FILENAME).open(
+                "r",
+                encoding="utf-8",
+        ) as geojsonfile:
+            return json.load(geojsonfile)
 
 
 def get_country_shapes() -> dict:
@@ -272,13 +281,20 @@ def state_boundaries(geojdata: object) -> tuple:
     return lons, lats
 
 
-def get_regions_offshore() -> dict:
-    """Get onshore regions."""
-    with (settings.DATA_DIR / OFFSHORE_GEOJSON_FILENAME).open(
-        "r",
-        encoding="utf-8",
-    ) as geojsonfile:
-        return json.load(geojsonfile)
+def get_regions_offshore(spatial_res) -> dict:
+    """Get offshore regions."""
+    if spatial_res == "region":
+        with (settings.DATA_DIR / OFFSHORE_GEOJSON_FILENAME).open(
+                "r",
+                encoding="utf-8",
+        ) as geojsonfile:
+            return json.load(geojsonfile)
+    elif spatial_res == "country":
+        with (settings.DATA_DIR / C_OFFSHORE_GEOJSON_FILENAME).open(
+                "r",
+                encoding="utf-8",
+        ) as geojsonfile:
+            return json.load(geojsonfile)
 
 
 def get_min_max(req: str, criteria: list[str]) -> (pd.DataFrame, pd.DataFrame):
