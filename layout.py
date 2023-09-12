@@ -185,12 +185,13 @@ criteria = html.Div(
 
 region = html.Section(
     title="Region",
-    children=[
+    children=[region_res,
         dcc.Graph(
             id="region",
         ),
     ],
 )
+
 atlas = dbc.Row(
     [
         dbc.Col(
@@ -213,7 +214,7 @@ atlas = dbc.Row(
 )
 controls = html.Section(
     title="Settings",
-    children=[scenario, year, spatial_res, requirements, unit, region_res, criteria],
+    children=[scenario, year, spatial_res, requirements, unit, criteria],
 )
 
 DEFAULT_LAYOUT = dbc.Container(
