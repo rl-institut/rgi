@@ -194,9 +194,15 @@ def update_region_dd(
     """Update region in drop down menu if region is selected on map."""
     choropleth_triggered = ctx.triggered_id
     if (choropleth_triggered == "choropleth_1") & (choropleth_feature_1 is not None):
-        return data.get_pretty_names()[choropleth_feature_1["points"][0]["location"]]
+        region = data.get_pretty_names()[choropleth_feature_1["points"][0]["location"]]
+        if "," in region:
+            region = "- "+region
+        return region
     elif (choropleth_triggered == "choropleth_2") & (choropleth_feature_2 is not None):
-        return data.get_pretty_names()[choropleth_feature_2["points"][0]["location"]]
+        region = data.get_pretty_names()[choropleth_feature_2["points"][0]["location"]]
+        if "," in region:
+            region = "- " + region
+        return region
     else:
         return region
 
@@ -244,7 +250,10 @@ def bar_chart(  # noqa: PLR0913
             "requirement",
             "unit",
             "criteria",
+            "year"
     )) & (choropleth_feature_1 is None) & (choropleth_feature_2 is None):
+        if "- " in region:
+            region = region[2:]
         name = [name for name, v in data.get_pretty_names().items() if v == region][0]
         region = name
     elif choropleth_triggered == "region_dd":
