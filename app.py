@@ -11,6 +11,7 @@ import layout
 import settings
 from flask_caching import Cache
 
+config = {'responsive': True}
 app = dash.Dash(
     __name__,
     meta_tags=[
@@ -110,7 +111,7 @@ def choropleth(  # noqa: PLR0913
                 unit=unit,
                 criteria=criteria,
                 min_max=get_min_max(requirement, criteria, scenarios, year, scenario, spatial_res=spatial_res),
-                width=1100, height=800, scenarios=scenarios, coloraxes=True
+                height=800, scenarios=scenarios, coloraxes=True
             ),
             graphs.blank_fig(),
             "col-11",
@@ -126,7 +127,7 @@ def choropleth(  # noqa: PLR0913
             criteria=criteria,
             min_max=get_min_max(requirement, criteria, scenarios, year,
                                 scenario_1=scenario_1, scenario_2=scenario_2, spatial_res=spatial_res),
-            width=600, height=600, scenarios=scenarios, coloraxes=False
+            height=600, scenarios=scenarios, coloraxes=False
         ),
         graphs.get_choropleth(
             scenario=scenario_2,
@@ -137,7 +138,7 @@ def choropleth(  # noqa: PLR0913
             criteria=criteria,
             min_max=get_min_max(requirement, criteria, scenarios, year,
                                 scenario_1=scenario_1, scenario_2=scenario_2, spatial_res=spatial_res),
-            width=700, height=600, scenarios=scenarios, coloraxes=True
+            height=600, scenarios=scenarios, coloraxes=True
         ),
         "col-5",
         "col-6",

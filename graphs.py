@@ -46,7 +46,6 @@ def get_choropleth(
         unit: str,
         criteria: list[str],
         min_max: tuple[pd.DataFrame, pd.DataFrame],
-        width: int,
         height: int,
         scenarios: str,
         coloraxes: bool
@@ -105,7 +104,7 @@ def get_choropleth(
         hover_data={"name": False, unit: True},
         labels=pretty_labels,
         range_color=(min_max[0][unit], min_max[1][unit]),
-        width=width, height=height
+        height=height
     )
 
     hover_dict = {"name": False, "offshore_color": False}
@@ -148,7 +147,7 @@ def get_choropleth(
         hover_name=df_offshore.pretty_name + ":<br> <i>Click to show bar plot with more detailed information below.</i>",
         hover_data=hover_dict,
         labels=pretty_labels,
-        width=width, height=height
+        height=height
     )
 
     # for country borders
@@ -189,7 +188,7 @@ def get_choropleth(
     )
 
     if scenarios == "scenario_single":
-        fig.update_coloraxes(colorbar_x=0.89)
+        fig.update_coloraxes(colorbar_x=1)
     elif not coloraxes:
         fig.update(layout_coloraxis_showscale=False)
 
