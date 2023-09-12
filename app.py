@@ -261,13 +261,17 @@ def bar_chart(  # noqa: PLR0913
             region = region[2:]
         name = [name for name, v in data.get_pretty_names().items() if v == region][0]
         region = name
-    elif (choropleth_triggered == "choropleth_1") or ((choropleth_triggered == "year") & (choropleth_feature_1 is not None)):
+    elif (choropleth_triggered == "choropleth_1") or ((choropleth_triggered == "year") & (choropleth_feature_1 is not None) & (region is None)):
         region = choropleth_feature_1["points"][0]["location"]
-    elif (choropleth_triggered == "choropleth_2") or ((choropleth_triggered == "year") & (choropleth_feature_2 is not None)):
+    elif (choropleth_triggered == "choropleth_2") or ((choropleth_triggered == "year") & (choropleth_feature_2 is not None) & (region is None)):
         region = choropleth_feature_2["points"][0]["location"]
     else:
-        if choropleth_feature_1 is not None:
-            region = choropleth_feature_1["points"][0]["location"]
+        if region is not None:
+            if "- " in region:
+                region = region[2:]
+            name = [name for name, v in data.get_pretty_names().items() if v == region][
+                0]
+            region = name
         else:
             return (graphs.blank_fig(),)
 
