@@ -16,7 +16,7 @@ pretty_labels = {
     "oly_field": "Area (in Soccer Fields)",
     "rel": "Area (in %)",
     "water_miom3": "Water (in Mio. m³)",
-    "oly_pool": "Water (in Swimming pools)",
+    "oly_pool": "Water (in Swimming Pools)",
     "type": "Criteria for requirements",
     "target_year": "Year",
     "sce_name": "Scenario",
@@ -190,6 +190,13 @@ def get_choropleth(
         fig.update_coloraxes(colorbar_x=1)
     elif not coloraxes:
         fig.update(layout_coloraxis_showscale=False)
+    else:
+        if unit == "oly_field":
+            fig.update_coloraxes(colorbar_title={"text": 'Area (in <br>Soccer Fields)'})
+        elif unit == "oly_pool":
+            fig.update_coloraxes(colorbar_title={"text": 'Water (in <br>Swimming <br>Pools)'})
+        elif unit == "water_miom3":
+            fig.update_coloraxes(colorbar_title={"text": 'Water (in  <br>Mio. m³)'})
 
     fig.update_geos(
         scope="europe",
