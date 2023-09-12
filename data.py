@@ -20,7 +20,7 @@ sce_pretty_names = {"clever": "CLEVER", "tyndp_de": 'TYNDP "Distributed Energy" 
 
 tech_dict_area = {
     "H2 Electrolysis": "Electrolyser",
-    "H2 Store": "H2 storage",
+    "H2 Store": "Hydrogen storage",
     "grid": "Grid",
     "offwind": "Offshore wind",
     "onwind": "Onshore wind",
@@ -30,8 +30,8 @@ tech_dict_area = {
     "urban area": "Urban & industrial area",
 }
 tech_dict_water = {
-    "H2 Electrolysis": "H2 production",
-    "SMR": "H2 production",
+    "H2 Electrolysis": "Hydrogen production",
+    "SMR": "Hydrogen production",
     "gas": "Gas",
     "CCGT": "Gas",
     "OCGT": "Gas",
