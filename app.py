@@ -171,11 +171,15 @@ def update_output(scenarios: str, scenario: str, scenario_1: str,
 )
 def sync_input(sce1, sce2):
     input_id = ctx.triggered[0]["prop_id"].split(".")[0]
-    if sce1 == sce2:
+    if (sce1 == sce2) | ((sce1 == "clever")
+                         & (sce2 == "CLEVER")) | ((sce2 == "clever")
+                                                  & (sce1 == "CLEVER")):
         if input_id == "scenario_1":
-            sce2 = [x for x in data.get_scenarios() if x != sce1][0]
+            sce2 = [x for x in data.get_scenarios() if x != data.get_sce_names()[sce1]]
+            sce2 = data.get_sce_pretty_names()[sce2[0]]
         else:
-            sce1 = [x for x in data.get_scenarios() if x != sce2][0]
+            sce1 = [x for x in data.get_scenarios() if x != data.get_sce_names()[sce2]]
+            sce1 = data.get_sce_pretty_names()[sce1[0]]
     return sce1, sce2
 
 
