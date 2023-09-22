@@ -32,7 +32,7 @@ pretty_labels = {
 def blank_fig() -> go.Figure:
     """Return empty figure."""
     fig = go.Figure(go.Scatter(x=[], y=[]))
-    fig.update_layout(template=None)
+    fig.update_layout(template=None,)
     fig.update_xaxes(showgrid=False, showticklabels=False, zeroline=False)
     fig.update_yaxes(showgrid=False, showticklabels=False, zeroline=False)
     return fig
@@ -187,7 +187,7 @@ def get_choropleth(
     )
 
     if scenarios == "scenario_single":
-        fig.update_coloraxes(colorbar_x=1)
+        fig.update_coloraxes(colorbar_x=1,colorbar_xref="container")
     elif not coloraxes:
         fig.update(layout_coloraxis_showscale=False)
     else:
