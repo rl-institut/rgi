@@ -51,7 +51,7 @@ def get_choropleth(
         coloraxes: bool
 ) -> px.choropleth:
     """Return choropleth for given user settings."""
-    title = f"{pretty_labels[data.get_sce_names()[scenario]]} spatial {requirement} requirement for {year}"
+    title = f"{pretty_labels[data.get_sce_names()[scenario]]} ({year})"
     df = data.prepare_data(
         scenario=scenario,
         requirement=requirement,
@@ -277,7 +277,7 @@ def get_bar_chart(  # noqa: PLR0913
     # change annotation above graph to only show scenario name; optional: give text="" for no annotation
     fig.for_each_annotation(lambda a:
                             a.update(
-                                text=f"{data.get_sce_pretty_names()[a.text[9:]]}:"
+                                text=f"{data.get_sce_pretty_names_2()[a.text[9:]]}:"
                                      f" {data.get_pretty_names()[region]}"))
     fig.update_annotations(font_size=18)
     # set fixed bar width

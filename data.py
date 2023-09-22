@@ -17,6 +17,8 @@ sce_names = {"CLEVER": "clever", 'TYNDP "Distributed Energy" (DE)': "tyndp_de",
                 'TYNDP "Global Ambition" (GA)': "tyndp_ga",  "PAC2.0": "pac2_0"}
 sce_pretty_names = {"clever": "CLEVER", "tyndp_de": 'TYNDP "Distributed Energy" (DE)',
                 "tyndp_ga": 'TYNDP "Global Ambition" (GA)', "pac2_0": "PAC2.0"}
+sce_pretty_names_2 = {"clever": "CLEVER", "tyndp_de": 'TYNDP DE',
+                "tyndp_ga": 'TYNDP GA', "pac2_0": "PAC2.0"}
 
 tech_dict_area = {
     "H2 Electrolysis": "Electrolyser",
@@ -194,6 +196,11 @@ def get_sce_names() -> dict:
 def get_sce_pretty_names() -> dict:
     """Return scenario dict from dataset."""
     return sce_pretty_names
+
+
+def get_sce_pretty_names_2() -> dict:
+    """Return scenario dict from dataset."""
+    return sce_pretty_names_2
 
 
 def get_scenario_text() -> dict:
